@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -50,26 +49,27 @@ namespace Rapr.Utils
             }
 
             List<DriverStoreEntry> driverStoreEntries = new List<DriverStoreEntry>();
-            var devicesInfo = new List<DeviceDriverInfo>();
 
             try
             {
-                {
-                    GCHandle handle = GCHandle.Alloc(devicesInfo);
-                    try
-                    {
-                        NativeMethods.DriverStoreEnumObjects(
-                            ptr,
-                            DriverStoreObjectType.DeviceNode,
-                            DRIVERSTORE_LOCK_LEVEL.NONE,
-                            EnumDeviceObjects,
-                            GCHandle.ToIntPtr(handle));
-                    }
-                    finally
-                    {
-                        handle.Free();
-                    }
-                }
+                // Switch to ConfigManager API since the native driver store API didn't return all the devices.
+                // Need to investigate the reason.
+                //{
+                //    GCHandle handle = GCHandle.Alloc(devicesInfo);
+                //    try
+                //    {
+                //        NativeMethods.DriverStoreEnumObjects(
+                //            ptr,
+                //            DriverStoreObjectType.DeviceNode,
+                //            DRIVERSTORE_LOCK_LEVEL.NONE,
+                //            EnumDeviceObjects,
+                //            GCHandle.ToIntPtr(handle));
+                //    }
+                //    finally
+                //    {
+                //        handle.Free();
+                //    }
+                //}
 
                 {
                     GCHandle handle = GCHandle.Alloc(driverStoreEntries);
@@ -92,18 +92,7 @@ namespace Rapr.Utils
                 NativeMethods.DriverStoreClose(ptr);
             }
 
-            foreach (var driverStoreEntry in driverStoreEntries)
-            {
-                var deviceInfo = devicesInfo.OrderByDescending(d => d.IsPresent)?.FirstOrDefault(e =>
-                    string.Equals(e.DriverInf, driverStoreEntry.DriverPublishedName, StringComparison.OrdinalIgnoreCase)
-                    && e.DriverVersion == driverStoreEntry.DriverVersion
-                    && e.DriverDate == driverStoreEntry.DriverDate);
-
-                driverStoreEntry.DeviceName = deviceInfo?.DeviceName;
-                driverStoreEntry.DevicePresent = deviceInfo?.IsPresent;
-            }
-
-            return driverStoreEntries;
+            return ConfigManager.FillDeviceInfo(driverStoreEntries);
         }
 
         public bool DeleteDriver(DriverStoreEntry driverStoreEntry, bool forceDelete)
@@ -167,13 +156,15 @@ namespace Rapr.Utils
                 string ObjectName,
                 IntPtr lParam)
         {
+            Debug.WriteLine(ObjectName);
             var devicesInfo = (List<DeviceDriverInfo>)GCHandle.FromIntPtr(lParam).Target;
 
             devicesInfo.Add(new DeviceDriverInfo(
+                GetObjectPropertyInfo<string>(hDriverStore, ObjectName, DeviceHelper.DEVPKEY_Device_InstanceId, ObjectType),
                 GetObjectPropertyInfo<string>(hDriverStore, ObjectName, DeviceHelper.DEVPKEY_Device_DriverDesc, ObjectType),
                 GetObjectPropertyInfo<string>(hDriverStore, ObjectName, DeviceHelper.DEVPKEY_Device_DriverInfPath, ObjectType),
                 GetObjectPropertyInfo<DateTime>(hDriverStore, ObjectName, DeviceHelper.DEVPKEY_Device_DriverDate, ObjectType),
-                Version.Parse(GetObjectPropertyInfo<string>(hDriverStore, ObjectName, DeviceHelper.DEVPKEY_Device_DriverVersion, ObjectType)),
+                GetObjectPropertyInfo<Version>(hDriverStore, ObjectName, DeviceHelper.DEVPKEY_Device_DriverVersion, ObjectType),
                 GetObjectPropertyInfo<bool?>(hDriverStore, ObjectName, DeviceHelper.DEVPKEY_Device_IsPresent, ObjectType)));
 
             return true;
@@ -201,6 +192,7 @@ namespace Rapr.Utils
                 DriverFolderLocation = Path.GetDirectoryName(driverStoreFilename),
                 DriverSize = DriverStoreRepository.GetFolderSize(new DirectoryInfo(Path.GetDirectoryName(driverStoreFilename))),
                 BootCritical = GetObjectPropertyInfo<bool?>(driverStoreHandle, driverStoreFilename, DeviceHelper.DEVPKEY_DriverPackage_BootCritical),
+                InstallDate = GetObjectPropertyInfo<DateTime?>(driverStoreHandle, driverStoreFilename, DeviceHelper.DEVPKEY_DriverPackage_ImportDate),
             };
 
             driverStoreEntries.Add(driverStoreEntry);
@@ -239,9 +231,105 @@ namespace Rapr.Utils
             return default;
         }
 
-        public bool ExportDriver(string infName, string destinationPath) => throw new NotImplementedException();
+        internal static ProcessorArchitecture GetProcessorArchitecture(IntPtr driverStoreHandle)
+        {
+            DevPropType propertyType;
+            DevPropKey propertyKey = DeviceHelper.DEVPKEY_DriverDatabase_ProcessorArchitecture;
 
-        public bool ExportAllDrivers(string destinationPath) => throw new NotImplementedException();
+            const int bufferSize = sizeof(Int16);
+            uint propertySize = 0;
+            IntPtr propertyBufferPtr = Marshal.AllocHGlobal(bufferSize);
+
+            try
+            {
+                NativeMethods.DriverStoreGetObjectProperty(
+                    driverStoreHandle,
+                    DriverStoreObjectType.DriverDatabase,
+                    "SYSTEM",
+                    ref propertyKey,
+                    out propertyType,
+                    propertyBufferPtr,
+                    bufferSize,
+                    out propertySize,
+                    DriverStoreSetObjectPropertyFlags.None);
+
+                return ((ProcessorArchitecture)Marshal.ReadInt16(propertyBufferPtr));
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(propertyBufferPtr);
+            }
+        }
+
+        public bool ExportDriver(DriverStoreEntry driverStoreEntry, string destinationPath)
+        {
+            if (driverStoreEntry == null)
+            {
+                throw new ArgumentNullException(nameof(driverStoreEntry));
+            }
+
+            var targetPath = Path.Combine(destinationPath, driverStoreEntry.GetDriversBackupFolderName());
+            if (!Directory.Exists(targetPath))
+            {
+                Directory.CreateDirectory(targetPath);
+            }
+
+            switch (this.Type)
+            {
+                case DriverStoreType.Online:
+                    var ptr = NativeMethods.DriverStoreOpen(null, null, 0, IntPtr.Zero);
+                    if (ptr == IntPtr.Zero)
+                    {
+                        throw new Win32Exception();
+                    }
+
+                    try
+                    {
+                        var processorArchitecture = GetProcessorArchitecture(ptr);
+
+                        uint status = NativeMethods.DriverStoreCopy(
+                            ptr,
+                            Path.Combine(driverStoreEntry.DriverFolderLocation, driverStoreEntry.DriverInfName),
+                            processorArchitecture,
+                            IntPtr.Zero,
+                            DriverStoreCopyFlags.None,
+                            targetPath);
+
+                        if (status != 0)
+                        {
+                            throw new Win32Exception((int)status);
+                        }
+                    }
+                    finally
+                    {
+                        NativeMethods.DriverStoreClose(ptr);
+                    }
+
+                    return true;
+
+                case DriverStoreType.Offline:
+                    throw new NotImplementedException();
+
+                default:
+                    throw new NotSupportedException();
+            }
+
+            throw new NotImplementedException();
+        }
+
+        public bool ExportAllDrivers(string destinationPath)
+        {
+            var driverStoreEntries = this.EnumeratePackages();
+            foreach (var driverStoreEntry in driverStoreEntries)
+            {
+                if (!this.ExportDriver(driverStoreEntry, destinationPath))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         // Define other methods and classes here
         private const int MAX_PATH = 260;

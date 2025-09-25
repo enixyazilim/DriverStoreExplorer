@@ -118,355 +118,388 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Button_Add_Package" xml:space="preserve">
-    <value>&amp;Adicionar driver</value>
+    <value>Προσθέστε Driver</value>
   </data>
   <data name="Button_Delete_Package" xml:space="preserve">
-    <value>E&amp;xcluir driver</value>
+    <value>Διαγραφή Driver(s)</value>
   </data>
   <data name="Button_OK" xml:space="preserve">
-    <value>&amp;OK</value>
+    <value>OK</value>
   </data>
   <data name="Button_Refresh" xml:space="preserve">
-    <value>Atuali&amp;zar</value>
+    <value>Ανανέωση</value>
   </data>
   <data name="Button_Select_Old" xml:space="preserve">
-    <value>&amp;Selecionar drivers antigos</value>
+    <value>Επιλογή των παλιών Driver(s)</value>
   </data>
   <data name="Check_Force_Delete" xml:space="preserve">
-    <value>&amp;Forçar exclusão</value>
+    <value>Υποχρεωτική Διαγραφή</value>
   </data>
   <data name="Check_Install_Driver" xml:space="preserve">
-    <value>&amp;Instalar driver</value>
+    <value>Εγκατάσταση Driver</value>
   </data>
   <data name="Column_Date" xml:space="preserve">
-    <value>Data do driver</value>
+    <value>Ημερομηνία Driver</value>
   </data>
   <data name="Column_Driver_Class" xml:space="preserve">
-    <value>Classe do driver</value>
+    <value>Τύπος Driver</value>
   </data>
   <data name="Column_Inf" xml:space="preserve">
-    <value>INF</value>
+    <value>Όνομα INF</value>
   </data>
   <data name="Column_Oem_Inf" xml:space="preserve">
     <value>OEM INF</value>
   </data>
   <data name="Column_Provider" xml:space="preserve">
-    <value>Fornecedor</value>
+    <value>Προμηθευτής</value>
   </data>
   <data name="Column_Signed_By" xml:space="preserve">
-    <value>Assinado por</value>
+    <value>Υπογεγραμμένο Από</value>
   </data>
   <data name="Column_Size" xml:space="preserve">
-    <value>Tamanho</value>
+    <value>Μέγεθος</value>
   </data>
   <data name="Column_Version" xml:space="preserve">
-    <value>Versão do driver</value>
+    <value>Έκδοση Driver</value>
   </data>
   <data name="Context_Delete" xml:space="preserve">
-    <value>Excluir</value>
+    <value>Διαγραφή</value>
   </data>
   <data name="Context_Deselect" xml:space="preserve">
-    <value>&amp;Desmarcar</value>
+    <value>Αποεπιλογή</value>
   </data>
   <data name="Context_Deselect_All" xml:space="preserve">
-    <value>Desmarcar &amp;todos</value>
+    <value>Αποεπιλογή Όλων</value>
   </data>
   <data name="Context_Select" xml:space="preserve">
-    <value>&amp;Selecionar</value>
+    <value>Επιλογή</value>
   </data>
   <data name="Context_Select_All" xml:space="preserve">
-    <value>Selecionar &amp;todos</value>
+    <value>Επιλογή Όλων</value>
   </data>
   <data name="Context_Invert_Selection" xml:space="preserve">
-    <value>&amp;Inverter seleção</value>
+    <value>&amp;Αντιστροφή Επιλογής</value>
   </data>
   <data name="Context_Select_Old" xml:space="preserve">
-    <value>Selecionar drivers &amp;antigos</value>
+    <value>Επιλογή Παλαιών Drivers</value>
   </data>
   <data name="Message_Delete_Multiple_Packages" xml:space="preserve">
-    <value>Prestes a excluir {0} pacotes do armazenamento de drivers.</value>
+    <value>Θα διαγραφούν {0} πακέτα από το driver store.</value>
+    <comment>{0} - Placeholder for number of packages</comment>
   </data>
   <data name="Message_Delete_Single_Package" xml:space="preserve">
-    <value>Prestes a excluir {0} ({1}) do armazenamento de drivers.</value>
+    <value>Θα διαγραφεί {0} ({1}) Driver.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Requires_Later_OS" xml:space="preserve">
-    <value>Este utilitário não pode ser executado em sistemas anteriores ao Windows Vista.</value>
+    <value>Η εφαρμογή δεν τρέχει σε λειτουργικά πριν τα Vista.</value>
   </data>
   <data name="Message_Sure" xml:space="preserve">
-    <value>Você tem certeza?</value>
+    <value>Είστε σίγουροι ?</value>
   </data>
   <data name="Message_Title_Warning" xml:space="preserve">
-    <value>Aviso</value>
+    <value>Προειδοποίηση</value>
   </data>
   <data name="Operations_Text" xml:space="preserve">
-    <value>Operações</value>
+    <value>Εργασίες</value>
   </data>
   <data name="Product_Name" xml:space="preserve">
     <value>Driver Store Explorer</value>
   </data>
   <data name="Status_Label" xml:space="preserve">
-    <value>Pronto</value>
+    <value>Έτοιμο</value>
   </data>
   <data name="Tip_Driver_In_Use" xml:space="preserve">
-    <value>[DICA: O driver ainda pode estar em uso. Tente FORÇAR a exclusão do pacote]</value>
+    <value>[TIP: Ο Driver μπορεί να είναι σε χρήση τώρα. Δοκιμάστε Υποχρεωτική διαγραφή του πακέτου]</value>
   </data>
   <data name="Menu_Help" xml:space="preserve">
-    <value>A&amp;juda</value>
+    <value>Βοήθεια</value>
   </data>
   <data name="Menu_Help_About" xml:space="preserve">
-    <value>So&amp;bre</value>
+    <value>Σχετικά</value>
   </data>
   <data name="Menu_File" xml:space="preserve">
-    <value>&amp;Arquivo</value>
+    <value>Αρχείο</value>
   </data>
   <data name="Menu_File_Export_All_Driver_List" xml:space="preserve">
-    <value>&amp;Exportar lista de drivers</value>
+    <value>Εξαγωγή Λίστας των Drivers</value>
   </data>
   <data name="Menu_File_Exit" xml:space="preserve">
-    <value>&amp;Sair</value>
+    <value>Έξοδος</value>
   </data>
   <data name="Menu_File_View_Logs" xml:space="preserve">
-    <value>&amp;Visualizar registros</value>
+    <value>Δείτε τα Αρχεία Καταγραφής</value>
   </data>
   <data name="Date_Format" xml:space="preserve">
     <value>{0:d}</value>
   </data>
   <data name="Message_No_Entries" xml:space="preserve">
-    <value>Nenhuma entrada carregada.</value>
-  </data>
-  <data name="Message_No_Match_Result" xml:space="preserve">
-    <value>Nenhum resultado.</value>
+    <value>Δεν φορτώθηκαν καταχωρήσεις.</value>
   </data>
   <data name="Product_About_Title" xml:space="preserve">
-    <value>Sobre o {0}</value>
+    <value>Σχετικά {0}</value>
+    <comment>{0} - Placeholder for Product_Name</comment>
   </data>
   <data name="Export_Error" xml:space="preserve">
-    <value>Erro</value>
+    <value>Σφάλμα</value>
   </data>
   <data name="About_Project_Description" xml:space="preserve">
-    <value>Você pode encontrar a versão mais recente e notas de lançamento aqui:
+    <value>Μπορείτε να βρείτε το ιστορικό εκδόσεων εδώ:
     https://github.com/lostindark/DriverStoreExplorer/releases
 
-Reportar bugs/solicitação de recursos:
+Αναφορά Bug/Προτάσεις:
     https://github.com/lostindark/DriverStoreExplorer/issues
 
-Colaboradores:
+Συνεισφέροντες:
     https://github.com/lostindark/DriverStoreExplorer/graphs/contributors
 
-Créditos:
+Credits:
     https://github.com/lostindark/DriverStoreExplorer?tab=readme-ov-file#credits
 
-Licença:
+Άδεια:
     https://github.com/lostindark/DriverStoreExplorer/blob/master/LICENSE
 </value>
   </data>
   <data name="UnitTest_Language" xml:space="preserve">
-    <value>Português (Brasil)</value>
+    <value>Ελληνικά</value>
   </data>
   <data name="Dialog_Export_Filters" xml:space="preserve">
-    <value>Arquivos CSV | *.csv</value>
+    <value>Αρχεία CSV | *.csv</value>
   </data>
   <data name="Status_Adding_Package" xml:space="preserve">
-    <value>Adicionando pacote de driver...</value>
+    <value>Προσθήκη πακέτου Driver...</value>
   </data>
   <data name="Status_Deleting_Packages" xml:space="preserve">
-    <value>Excluindo pacote(s) de driver...</value>
+    <value>Διαγράφεται πακέτο/α Driver/s...</value>
   </data>
   <data name="Message_Delete_Package" xml:space="preserve">
-    <value>Removido {0} ({1}) do armazenamento de drivers.</value>
+    <value>Διαγράφηκε {0} ({1}) from driver store.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Delete_Packages" xml:space="preserve">
-    <value>Removidos {0} pacotes do armazenamento de drivers.</value>
+    <value>Διαγράφηκαν {0} πακέτα Drivers.</value>
+    <comment>{0} - Placeholder for number of packages</comment>
   </data>
   <data name="Message_Delete_Package_Error" xml:space="preserve">
-    <value>Erro ao remover {0} ({1}) do armazenamento de drivers.</value>
+    <value>Σφάλμα Διαγραφής {0} ({1}) .</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Delete_Packages_Error" xml:space="preserve">
-    <value>Erro ao remover alguns pacotes do armazenamento de drivers.</value>
+    <value>Σφάμα Διαγραφής κάποιων πακέτων Drivers.</value>
   </data>
   <data name="Message_Driver_Added" xml:space="preserve">
-    <value>Adicionado pacote {0} ao armazenamento de drivers.</value>
+    <value>Προστέθηκε το πακέτο Driver {0} .</value>
+    <comment>{0} - Placeholder for path to inf</comment>
   </data>
   <data name="Message_Driver_Added_Error" xml:space="preserve">
-    <value>Erro ao adicionar pacote {0} ao armazenamento de drivers.</value>
+    <value>Σφάλμα στην προσθήκη {0} του πακέτου Driver.</value>
+    <comment>{0} - Placeholder for path to inf</comment>
   </data>
   <data name="Message_Log_File_NotFound" xml:space="preserve">
-    <value>O arquivo de registro não foi encontrado.</value>
+    <value>Το αρχείο καταγραφής δε μπορεί να βρεθεί.</value>
   </data>
   <data name="Message_Error" xml:space="preserve">
-    <value>Erro</value>
+    <value>Σφάλμα</value>
   </data>
   <data name="Export_Complete" xml:space="preserve">
-    <value>Conteúdo salvo em {0}. Exportar concluído.</value>
+    <value>Τα περιεχόμενα αποθηκεύτηκαν στο {0}. Ολοκληρώθηκε η Εξαγωγή.</value>
+    <comment>{0} - Placeholder for export path</comment>
   </data>
   <data name="Export_Failed" xml:space="preserve">
-    <value>Falha ao exportar: {0}</value>
+    <value>Η Εξαγωγή απέτυχε: {0}</value>
+    <comment>{0} - Placeholder for error message</comment>
   </data>
   <data name="Status_Selected_Drivers" xml:space="preserve">
-    <value>Selecionado(s) {0} driver(s). Tamanho total: {1}.</value>
+    <value>Επιλέχθηκε/αν {0} Driver(s). Συνολικό μέγεθος: {1}.</value>
+    <comment>{0} - Placeholder for number of selected Drivers
+{1} - Placeholder for disk space</comment>
   </data>
   <data name="Status_No_Drivers_Selected" xml:space="preserve">
-    <value>Nenhum driver selecionado.</value>
+    <value>Δεν επιλέχθηκαν Drivers.</value>
   </data>
   <data name="Context_Open_Folder" xml:space="preserve">
-    <value>Abrir &amp;local da pasta</value>
+    <value>Άνοιγμα Τοποθεσίας Φακέλου</value>
   </data>
-  <data name="Context_Open_Device_Properties" xml:space="preserve">
-    <value>Abrir &amp;propriedades do dispositivo</value>
+   <data name="Context_Open_Device_Properties" xml:space="preserve">
+    <value>Ανοίξτε της Συσκευής &amp;τις Ιδιότητες</value>
   </data>
   <data name="DriverStore_LocalMachine" xml:space="preserve">
-    <value>Máquina local</value>
+    <value>Τοπική Μηχανή</value>
   </data>
   <data name="Menu_File_Choose_Driver_Store" xml:space="preserve">
-    <value>Es&amp;colher o armazenamento de drivers</value>
+    <value>Επιλογή Driver Store</value>
   </data>
   <data name="DriverStore_Offline" xml:space="preserve">
-    <value>Armazenamento de drivers off-line</value>
+    <value>Εκτός Σύνδεσης Driver Store</value>
   </data>
   <data name="ChooseDriverStore_Title" xml:space="preserve">
-    <value>Es&amp;colher o armazenamento de drivers</value>
+    <value>Επιλογή Driver Store</value>
   </data>
   <data name="Menu_Language" xml:space="preserve">
-    <value>&amp;Idioma</value>
+    <value>Γλώσσα</value>
   </data>
   <data name="Column_DeviceName" xml:space="preserve">
-    <value>Nome do dispositivo</value>
-  </data>
-  <data name="Column_DeviceId" xml:space="preserve">
-    <value>ID do dispositivo</value>
+    <value>Όνομα Συσκευής</value>
   </data>
   <data name="About_VersionUpToDate" xml:space="preserve">
-    <value>(Atualizado)</value>
+    <value>(Ενημερωμένη Έκδοση)</value>
   </data>
   <data name="About_FoundNewVersion" xml:space="preserve">
-    <value>(Nova versão {0} disponível - {1})</value>
+    <value>(Βρέθηκε Νέα Έκδοση v{0} - {1})</value>
+    <comment>{0} - Placeholder for version number
+{1} - Placeholder for About_Download</comment>
   </data>
   <data name="About_Download" xml:space="preserve">
-    <value>Baixar</value>
+    <value>Λήψη</value>
   </data>
   <data name="Message_Scanning_Driver_Store" xml:space="preserve">
-    <value>Verificando armazenamento de drivers...</value>
+    <value>Σάρωση του Driver Store...</value>
   </data>
   <data name="Message_ForceDelete_Single_Package" xml:space="preserve">
-    <value>Prestes a forçar excluir {0} ({1}) do armazenamento de drivers.</value>
+    <value>Θα διαγραφεί Υποχρεωτικά {0} ({1}) .</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_ForceDelete_Multiple_Packages" xml:space="preserve">
-    <value>Prestes a excluir {0} pacotes do armazenamento de drivers.</value>
+    <value>Θα διαγραφούν υποχρεωτικά  {0} πακέτα Drivers.</value>
+    <comment>{0} - Placeholder for number of packages</comment>
   </data>
   <data name="Message_Delete_Success" xml:space="preserve">
-    <value>Exclusão de {0} ({1}) bem sucedido.</value>
+    <value>Η Διαγραφή του {0} ({1}) πέτυχε.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Export_Success" xml:space="preserve">
-    <value>Exportar driver {0} ({1}) bem sucedido.</value>
+    <value>Η Εξαγωγή Driver {0} ({1}) πέτυχε.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Delete_Fail" xml:space="preserve">
-    <value>Falha ao excluir {0} ({1}).</value>
+    <value>Η Διαγραφή του  {0} ({1}) απέτυχε.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Export_Fail" xml:space="preserve">
-    <value>Falha ao exportar driver {0} ({1}).</value>
+    <value>Η Εξαγωγή του Driver {0} ({1}) απέτυχε.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Driver_Added_Installed" xml:space="preserve">
-    <value>Adicionado pacote {0} e instalado no armazenamento de drivers.</value>
+    <value>Προστέθηκε το πακέτο {0} &amp; εγκαταστάθηκε στο Driver Store.</value>
+    <comment>{0} - Placeholder for path to inf</comment>
   </data>
   <data name="Message_Driver_Added_Installed_Error" xml:space="preserve">
-    <value>Erro ao adicionar pacote {0} e instalado ao armazenamento de drivers.</value>
+    <value>Σφάλμα στην προσθήκη του πακέτου {0} &amp; εγκαταστάθηκε στο Driver Store.</value>
+    <comment>{0} - Placeholder for path to inf</comment>
   </data>
   <data name="Button_Export_Drivers" xml:space="preserve">
-    <value>&amp;Exportar driver(s)</value>
+    <value>Εξαγωγή Driver(s)</value>
   </data>
   <data name="Context_Export_Driver" xml:space="preserve">
-    <value>&amp;Exportar driver</value>
+    <value>Εξαγωγή Driver</value>
   </data>
   <data name="Button_Export_All_Drivers" xml:space="preserve">
-    <value>Ex&amp;portar todos os drivers</value>
+    <value>Εξαγωγή 'Ολων των Drivers</value>
   </data>
   <data name="Message_Export_All_Drivers_Fail" xml:space="preserve">
-    <value>Falha ao exportar todos os pacotes de drivers.</value>
+    <value>Η Εξαγωγή Όλων των Drivers απέτυχε.</value>
   </data>
   <data name="Message_Export_Drivers_Error" xml:space="preserve">
-    <value>Erro ao exportar alguns pacotes de drivers.</value>
+    <value>Σφάλμα κατά την Εξαγωγή κάποιων Drivers.</value>
   </data>
   <data name="Message_Export_All_Drivers_Success" xml:space="preserve">
-    <value>Todos os pacotes de drivers exportados com sucesso.</value>
+    <value>H Εξαγωγή όλων των Drivers ήταν επιτυχής.</value>
   </data>
   <data name="Message_Export_Drivers_Success" xml:space="preserve">
-    <value>Pacotes de drivers exportados com sucesso.</value>
+    <value>Η Εξαγωγή των Drivers ήταν επιτυχής.</value>
   </data>
   <data name="Status_Exporting_All_Drivers" xml:space="preserve">
-    <value>Exportando todos os pacotes de drivers...</value>
+    <value>Εξάγονται όλοι οι Drivers ...</value>
   </data>
   <data name="Status_Exporting_Drivers" xml:space="preserve">
-    <value>Exportando pacote(s) de driver(s)...</value>
+    <value>Εξάγονται Driver(s) ...</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
-    <value>&amp;Cancelar</value>
+    <value>Άκυρο</value>
   </data>
   <data name="Column_BootCritical" xml:space="preserve">
-    <value>Crítico na inicialização</value>
+    <value>Κρίσιμο για το Boot</value>
   </data>
   <data name="Column_Text_True" xml:space="preserve">
-    <value>Verdadeiro</value>
+    <value>Ναι</value>
   </data>
   <data name="Column_Text_False" xml:space="preserve">
-    <value>Falso</value>
+    <value>Όχι</value>
   </data>
   <data name="Column_Extension_Id" xml:space="preserve">
-    <value>ID da extensão</value>
+    <value>Id Επέκτασης</value>
   </data>
   <data name="Column_InstallDate" xml:space="preserve">
-    <value>Data de instalação</value>
+    <value>Ημερομηνία εγκατάστασης</value>
   </data>
   <data name="Menu_Options" xml:space="preserve">
-    <value>&amp;Opções</value>
+    <value>Επιλογές</value>
   </data>
   <data name="Menu_Options_UseNativeDriverStore" xml:space="preserve">
-    <value>Usar armazenamento de drivers nativo</value>
+    <value>Χρήση του Εγγενούς Driver Store</value>
   </data>
   <data name="Menu_Options_UseDISM" xml:space="preserve">
-    <value>Usar DISM</value>
+    <value>Χρησιμοποιήστε DISM</value>
   </data>
   <data name="Menu_Options_UsePnpUtil" xml:space="preserve">
-    <value>Usar PnpUtil</value>
+    <value>Χρησιμοποιήστε PnpUtil</value>
   </data>
   <data name="Message_Type_Here_To_Search" xml:space="preserve">
-    <value>Digite aqui para pesquisar</value>
-  </data>
-  <data name="Dialog_Select_Inf_Folder" xml:space="preserve">
-    <value>Selecione a pasta INF</value>
+    <value>Γράψτε Εδώ για αναζήτηση</value>
   </data>
   <data name="Message_No_Inf_Found" xml:space="preserve">
-    <value>Nenhum arquivo INF encontrado na pasta {0}.</value>
+    <value>Δεν βρέθηκαν αρχεία .inf στον φάκελο {0}.</value>
+    <comment>{0} - Placeholder for the folder name</comment>
+  </data>
+  <data name="Message_No_Match_Result" xml:space="preserve">
+    <value>Κανένα αποτέλεσμα αντιστοιχίας.</value>
+  </data>
+  <data name="Column_DeviceId" xml:space="preserve">
+    <value>Αναγνωριστικό Συσκευής</value>
   </data>
   <data name="Message_Drivers_Added" xml:space="preserve">
-    <value>{0} pacotes adicionados ao armazenamento de drivers.</value>
+    <value>Προστέθηκαν {0} πακέτα στο driver store.</value>
+    <comment>{0} - Placeholder for number of packages</comment>
   </data>
   <data name="Message_Drivers_Added_Installed" xml:space="preserve">
-    <value>{0} pacotes adicionados e instalados no armazenamento de drivers.</value>
+    <value>Προστέθηκαν {0} πακέτα και εγκαταστάθηκαν στο driver store.</value>
+    <comment>{0} - Placeholder for number of packages.</comment>
   </data>
   <data name="Message_Drivers_Added_Error" xml:space="preserve">
-    <value>Erro ao adicionar alguns pacotes ao armazenamento de drivers.</value>
+    <value>Σφάλμα κατά την προσθήκη κάποιων πακέτων στο to driver store.</value>
   </data>
   <data name="Message_Drivers_Added_Installed_Error" xml:space="preserve">
-    <value>Erro ao adicionar alguns pacotes e instalar no armazenamento de drivers.</value>
+    <value>Σφάλμα στην προσθήκη κάποιων πακέτων και εγκατάστασης στο driver store.</value>
   </data>
   <data name="Menu_File_Export_Selected_Driver_List" xml:space="preserve">
-    <value>Exportar lista de drivers &amp;selecionados</value>
+    <value>Εξαγωγή &amp;της λίστας των Επιλεγμένων Drivers</value>
   </data>
   <data name="Menu_Options_IncludeBootCritical" xml:space="preserve">
-    <value>Incluir drivers de inicialização crítica em drivers antigos</value>
+    <value>Συμπερίληψη οδηγών κρίσιμων για την εκκίνηση στους παλιούς οδηγούς</value>
+  </data>
+  <data name="Dialog_Select_Inf_Folder" xml:space="preserve">
+    <value>Επιλέξτε τον φάκελο Inf</value>
   </data>
   <data name="Dialog_Select_Offline_Store_Title" xml:space="preserve">
-    <value>Selecione a pasta contendo a pasta Windows (não a própria pasta Windows)</value>
+    <value>Επιλέξτε τον κατάλογο που περιέχει το φάκελο Windows (όχι τον ίδιο το φάκελο Windows)</value>
   </data>
   <data name="Message_Invalid_Offline_Store_Title" xml:space="preserve">
-    <value>Seleção de pasta inválida</value>
+    <value>Μη έγκυρη επιλογή καταλόγου</value>
   </data>
   <data name="Message_Invalid_Offline_Store_Location" xml:space="preserve">
-    <value>A pasta selecionada deve conter uma pasta 'Windows'.
+    <value>Ο επιλεγμένος κατάλογος πρέπει να περιέχει ένα φάκελο 'Windows'.
 
-Por favor, selecione a pasta raiz de uma instalação ou imagem do Windows (a pasta que contém a pasta Windows), não a própria pasta Windows.</value>
+Παρακαλώ επιλέξτε τον κατάλογο ρίζας μιας εγκατάστασης ή εικόνας Windows (τον κατάλογο που περιέχει το φάκελο Windows), όχι τον ίδιο το φάκελο Windows.</value>
   </data>
   <data name="Message_No_Old_Drivers_Found" xml:space="preserve">
-    <value>Nenhum driver antigo encontrado para selecionar.</value>
+    <value>Δεν βρέθηκαν παλιοί οδηγοί για επιλογή.</value>
   </data>
 </root>

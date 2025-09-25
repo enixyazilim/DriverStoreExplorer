@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -177,6 +177,9 @@
   <data name="Context_Select_All" xml:space="preserve">
     <value>Označiť &amp;všetko</value>
   </data>
+  <data name="Context_Invert_Selection" xml:space="preserve">
+    <value>&amp;Prevrátiť výber</value>
+  </data>
   <data name="Context_Select_Old" xml:space="preserve">
     <value>Označiť &amp;staré ovládače</value>
   </data>
@@ -219,11 +222,11 @@
   <data name="Menu_File" xml:space="preserve">
     <value>&amp;Súbor</value>
   </data>
-  <data name="Menu_File_Export" xml:space="preserve">
-    <value>&amp;Exportovať zoznam ovládačov</value>
+  <data name="Menu_File_Export_All_Driver_List" xml:space="preserve">
+    <value>&amp;Exportovať zoznam všetkých ovládačov</value>
   </data>
   <data name="Menu_File_Exit" xml:space="preserve">
-    <value>E&amp;xit</value>
+    <value>U&amp;končiť</value>
   </data>
   <data name="Menu_File_View_Logs" xml:space="preserve">
     <value>Zobraziť &amp;log súbory</value>
@@ -234,11 +237,11 @@
   <data name="Message_No_Entries" xml:space="preserve">
     <value>Žiadne záznamy nenájdené.</value>
   </data>
-  <data name="Dialog_Open_Filter_Text" xml:space="preserve">
-    <value>Vyberte INF súbor</value>
+  <data name="Message_No_Match_Result" xml:space="preserve">
+    <value>Žiadna výsledná zhoda.</value>
   </data>
-  <data name="Dialog_Open_Filters" xml:space="preserve">
-    <value>INF súbory | *.inf</value>
+  <data name="Dialog_Select_Inf_Folder" xml:space="preserve">
+    <value>Vyberte Inf priečinok</value>
   </data>
   <data name="Product_About_Title" xml:space="preserve">
     <value>O {0}</value>
@@ -258,8 +261,7 @@ Prispievatelia:
     https://github.com/lostindark/DriverStoreExplorer/graphs/contributors
 
 Zásluhy:
-    ObjectListView http://objectlistview.sourceforge.net/
-    Managed DismApi Wrapper https://github.com/jeffkl/ManagedDism
+    https://github.com/lostindark/DriverStoreExplorer?tab=readme-ov-file#credits
 
 Licencia:
     https://github.com/lostindark/DriverStoreExplorer/blob/master/LICENSE
@@ -327,6 +329,9 @@ Licencia:
   <data name="Context_Open_Folder" xml:space="preserve">
     <value>Otvoriť &amp;priečinok</value>
   </data>
+  <data name="Context_Open_Device_Properties" xml:space="preserve">
+    <value>Otvoriť vlastnosti &amp;zariadenia</value>
+  </data>
   <data name="DriverStore_LocalMachine" xml:space="preserve">
     <value>Tento počítač</value>
   </data>
@@ -344,6 +349,9 @@ Licencia:
   </data>
   <data name="Column_DeviceName" xml:space="preserve">
     <value>Názov zariadenia</value>
+  </data>
+  <data name="Column_DeviceId" xml:space="preserve">
+    <value>Id zariadenia</value>
   </data>
   <data name="About_VersionUpToDate" xml:space="preserve">
     <value>(aktuálny)</value>
@@ -373,8 +381,18 @@ Licencia:
     <comment>{0} - Placeholder for inf package file
 {1} - Placeholder for oem inf file</comment>
   </data>
+  <data name="Message_Export_Success" xml:space="preserve">
+    <value>Export ovládača {0} ({1}) uspel.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
+  </data>
   <data name="Message_Delete_Fail" xml:space="preserve">
     <value>Odstránenie {0} ({1}) zlyhalo.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
+  </data>
+  <data name="Message_Export_Fail" xml:space="preserve">
+    <value>Export ovládača {0} ({1}) zlyhal.</value>
     <comment>{0} - Placeholder for inf package file
 {1} - Placeholder for oem inf file</comment>
   </data>
@@ -392,17 +410,26 @@ Licencia:
   <data name="Context_Export_Driver" xml:space="preserve">
     <value>&amp;Exportovať ovládač</value>
   </data>
-  <data name="Menu_File_Export_All_Drivers" xml:space="preserve">
+  <data name="Button_Export_All_Drivers" xml:space="preserve">
     <value>Exportovať &amp;všetky ovládače</value>
   </data>
   <data name="Message_Export_All_Drivers_Fail" xml:space="preserve">
     <value>Export všetkých balíkov ovládačov zlyhal.</value>
   </data>
+  <data name="Message_Export_Drivers_Error" xml:space="preserve">
+    <value>Chyba pri exportovaní niektorých balíkov ovládačov.</value>
+  </data>
   <data name="Message_Export_All_Drivers_Success" xml:space="preserve">
     <value>Export všetkých balíkov ovládačov uspel.</value>
   </data>
+  <data name="Message_Export_Drivers_Success" xml:space="preserve">
+    <value>Export balíkov ovládačov uspel.</value>
+  </data>
   <data name="Status_Exporting_All_Drivers" xml:space="preserve">
     <value>Exportovanie všetkých balíkov ovládačov...</value>
+  </data>
+  <data name="Status_Exporting_Drivers" xml:space="preserve">
+    <value>Exportovanie balíka(ov) ovládačov...</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
     <value>&amp;Zrušiť</value>
@@ -418,5 +445,61 @@ Licencia:
   </data>
   <data name="Column_Extension_Id" xml:space="preserve">
     <value>Id rozšírenia</value>
+  </data>
+  <data name="Column_InstallDate" xml:space="preserve">
+    <value>Dátum inštalácie</value>
+  </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>&amp;Možnosti</value>
+  </data>
+  <data name="Menu_Options_UseNativeDriverStore" xml:space="preserve">
+    <value>Použiť Natívne Úložisko Ovládačov</value>
+  </data>
+  <data name="Menu_Options_UseDISM" xml:space="preserve">
+    <value>Použiť DISM</value>
+  </data>
+  <data name="Menu_Options_UsePnpUtil" xml:space="preserve">
+    <value>Použiť PnpUtil</value>
+  </data>
+  <data name="Message_Type_Here_To_Search" xml:space="preserve">
+    <value>Píšte sem pre vyhľadávanie</value>
+  </data>
+  <data name="Message_No_Inf_Found" xml:space="preserve">
+    <value>Nenájdené žiadne inf súbory v priečinku {0}.</value>
+    <comment>{0} - Placeholder for the folder name</comment>
+  </data>
+  <data name="Message_Drivers_Added" xml:space="preserve">
+    <value>Pridaných {0} balíkov do úložiska ovládačov.</value>
+    <comment>{0} - Placeholder for number of packages</comment>
+  </data>
+  <data name="Message_Drivers_Added_Installed" xml:space="preserve">
+    <value>Pridaných {0} balíkov a nainštalovaných do úložiska ovládačov.</value>
+    <comment>{0} - Placeholder for number of packages.</comment>
+  </data>
+  <data name="Message_Drivers_Added_Error" xml:space="preserve">
+    <value>Chyba pri pridávaní niektorých balíkov do úložiska ovládačov.</value>
+  </data>
+  <data name="Message_Drivers_Added_Installed_Error" xml:space="preserve">
+    <value>Chyba pri pridávaní niektorých balíkov a inštalovaní do úložiska ovládačov.</value>
+  </data>
+  <data name="Menu_File_Export_Selected_Driver_List" xml:space="preserve">
+    <value>Exportovať zoznam &amp;označených ovládačov</value>
+  </data>
+  <data name="Menu_Options_IncludeBootCritical" xml:space="preserve">
+    <value>Zahrnúť ovládače kritické pre štart do starých ovládačov</value>
+  </data>
+  <data name="Dialog_Select_Offline_Store_Title" xml:space="preserve">
+    <value>Vyberte adresár obsahujúci priečinok Windows (nie samotný priečinok Windows)</value>
+  </data>
+  <data name="Message_Invalid_Offline_Store_Title" xml:space="preserve">
+    <value>Neplatný výber adresára</value>
+  </data>
+  <data name="Message_Invalid_Offline_Store_Location" xml:space="preserve">
+    <value>Vybraný adresár musí obsahovať priečinok 'Windows'.
+
+Prosím vyberte koreňový adresár inštalácie alebo obrazu Windows (adresár obsahujúci priečinok Windows), nie samotný priečinok Windows.</value>
+  </data>
+  <data name="Message_No_Old_Drivers_Found" xml:space="preserve">
+    <value>Neboli nájdené žiadne staré ovládače na výber.</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-version: 0.11.{build}
+version: 0.12.{build}
 pull_requests:
   do_not_increment_build_number: true
 skip_tags: true
@@ -20,11 +20,15 @@ artifacts:
 - path: Rapr\bin\$(configuration)
   name: DriverStoreExplorer.v$(appveyor_build_version)
 deploy:
+- provider: Webhook
+  url: https://app.signpath.io/API/v1/c9bd44ce-a067-4f9a-9135-468d00ed0b13/Integrations/AppVeyor?ProjectSlug=DriverStoreExplorer&SigningPolicySlug=release-signing&ArtifactConfigurationSlug=initial
+  authorization:
+    secure: Sp+dyZT8TcUyATigSyBCYBhCLcE2ssOe+paw6B9hgMQE7ODHADr7njYCzdU4rpDsUed/BH8s+c04kszIobeAow==
 - provider: GitHub
   tag: v$(appveyor_build_version)
   release: DriverStore Explorer v$(appveyor_build_version)
   auth_token:
-    secure: xEMEtDC/48AR0yz0SjQp2LPkB5ExQvlIQJ1FXsUUYMdv+ZrMF8ie8gJWYT1V1L7g
+    secure: kjDyjFc99PloCToD7DfI3ETVarqB4gjDe8HNYHe8FojFVSDqjmX6XCxP77nzAzFR
   draft: true
   prerelease: false
   force_update: true

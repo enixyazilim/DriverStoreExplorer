@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Button_Add_Package" xml:space="preserve">
-    <value>&amp;Add Driver</value>
+    <value>&amp;Add Driver(s)</value>
   </data>
   <data name="Button_Delete_Package" xml:space="preserve">
     <value>&amp;Delete Driver(s)</value>
@@ -130,7 +130,7 @@
     <value>&amp;Refresh</value>
   </data>
   <data name="Button_Select_Old" xml:space="preserve">
-    <value>Select &amp;Old Driver(s)</value>
+    <value>&amp;Select Old Driver(s)</value>
   </data>
   <data name="Check_Force_Delete" xml:space="preserve">
     <value>Force Deletio&amp;n</value>
@@ -177,6 +177,9 @@
   <data name="Context_Select_All" xml:space="preserve">
     <value>Select &amp;All</value>
   </data>
+  <data name="Context_Invert_Selection" xml:space="preserve">
+    <value>&amp;Invert Selection</value>
+  </data>
   <data name="Context_Select_Old" xml:space="preserve">
     <value>Select &amp;Old Drivers</value>
   </data>
@@ -219,8 +222,8 @@
   <data name="Menu_File" xml:space="preserve">
     <value>&amp;File</value>
   </data>
-  <data name="Menu_File_Export" xml:space="preserve">
-    <value>&amp;Export Driver List</value>
+  <data name="Menu_File_Export_All_Driver_List" xml:space="preserve">
+    <value>&amp;Export All Driver List</value>
   </data>
   <data name="Menu_File_Exit" xml:space="preserve">
     <value>E&amp;xit</value>
@@ -234,11 +237,11 @@
   <data name="Message_No_Entries" xml:space="preserve">
     <value>No entries loaded.</value>
   </data>
-  <data name="Dialog_Open_Filter_Text" xml:space="preserve">
-    <value>Select the INF</value>
+  <data name="Message_No_Match_Result" xml:space="preserve">
+    <value>No match result.</value>
   </data>
-  <data name="Dialog_Open_Filters" xml:space="preserve">
-    <value>INF files | *.inf</value>
+  <data name="Dialog_Select_Inf_Folder" xml:space="preserve">
+    <value>Select the Inf folder</value>
   </data>
   <data name="Product_About_Title" xml:space="preserve">
     <value>About {0}</value>
@@ -258,8 +261,7 @@ Contributors:
     https://github.com/lostindark/DriverStoreExplorer/graphs/contributors
 
 Credits:
-    ObjectListView http://objectlistview.sourceforge.net/
-    Managed DismApi Wrapper https://github.com/jeffkl/ManagedDism
+    https://github.com/lostindark/DriverStoreExplorer?tab=readme-ov-file#credits
 
 License:
     https://github.com/lostindark/DriverStoreExplorer/blob/master/LICENSE
@@ -299,7 +301,7 @@ License:
     <comment>{0} - Placeholder for path to inf</comment>
   </data>
   <data name="Message_Driver_Added_Error" xml:space="preserve">
-    <value>Error adding {0} the package to driver store.</value>
+    <value>Error adding the package {0} to driver store.</value>
     <comment>{0} - Placeholder for path to inf</comment>
   </data>
   <data name="Message_Log_File_NotFound" xml:space="preserve">
@@ -327,6 +329,9 @@ License:
   <data name="Context_Open_Folder" xml:space="preserve">
     <value>Open &amp;Folder Location</value>
   </data>
+  <data name="Context_Open_Device_Properties" xml:space="preserve">
+    <value>Open Device &amp;Properties</value>
+  </data>
   <data name="DriverStore_LocalMachine" xml:space="preserve">
     <value>Local Machine</value>
   </data>
@@ -344,6 +349,9 @@ License:
   </data>
   <data name="Column_DeviceName" xml:space="preserve">
     <value>Device Name</value>
+  </data>
+  <data name="Column_DeviceId" xml:space="preserve">
+    <value>Device Id</value>
   </data>
   <data name="About_VersionUpToDate" xml:space="preserve">
     <value>(Up to date)</value>
@@ -373,8 +381,18 @@ License:
     <comment>{0} - Placeholder for inf package file
 {1} - Placeholder for oem inf file</comment>
   </data>
+  <data name="Message_Export_Success" xml:space="preserve">
+    <value>Export driver {0} ({1}) succeeded.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
+  </data>
   <data name="Message_Delete_Fail" xml:space="preserve">
     <value>Deletion of {0} ({1}) failed.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
+  </data>
+  <data name="Message_Export_Fail" xml:space="preserve">
+    <value>Export driver {0} ({1}) failed.</value>
     <comment>{0} - Placeholder for inf package file
 {1} - Placeholder for oem inf file</comment>
   </data>
@@ -392,17 +410,26 @@ License:
   <data name="Context_Export_Driver" xml:space="preserve">
     <value>&amp;Export Driver</value>
   </data>
-  <data name="Menu_File_Export_All_Drivers" xml:space="preserve">
+  <data name="Button_Export_All_Drivers" xml:space="preserve">
     <value>Ex&amp;port All Drivers</value>
   </data>
   <data name="Message_Export_All_Drivers_Fail" xml:space="preserve">
     <value>Export all driver packages failed.</value>
   </data>
+  <data name="Message_Export_Drivers_Error" xml:space="preserve">
+    <value>Error exporting some driver packages.</value>
+  </data>
   <data name="Message_Export_All_Drivers_Success" xml:space="preserve">
     <value>Export all driver packages succeeded.</value>
   </data>
+  <data name="Message_Export_Drivers_Success" xml:space="preserve">
+    <value>Export driver packages succeeded.</value>
+  </data>
   <data name="Status_Exporting_All_Drivers" xml:space="preserve">
     <value>Exporting all driver packages...</value>
+  </data>
+  <data name="Status_Exporting_Drivers" xml:space="preserve">
+    <value>Exporting driver package(s)...</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
     <value>&amp;Cancel</value>
@@ -418,5 +445,61 @@ License:
   </data>
   <data name="Column_Extension_Id" xml:space="preserve">
     <value>Extension Id</value>
+  </data>
+  <data name="Column_InstallDate" xml:space="preserve">
+    <value>Install Date</value>
+  </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>&amp;Options</value>
+  </data>
+  <data name="Menu_Options_UseNativeDriverStore" xml:space="preserve">
+    <value>Use Native Driver Store</value>
+  </data>
+  <data name="Menu_Options_UseDISM" xml:space="preserve">
+    <value>Use DISM</value>
+  </data>
+  <data name="Menu_Options_UsePnpUtil" xml:space="preserve">
+    <value>Use PnpUtil</value>
+  </data>
+  <data name="Message_Type_Here_To_Search" xml:space="preserve">
+    <value>Type here to search</value>
+  </data>
+  <data name="Message_No_Inf_Found" xml:space="preserve">
+    <value>No inf files found in folder {0}.</value>
+    <comment>{0} - Placeholder for the folder name</comment>
+  </data>
+  <data name="Message_Drivers_Added" xml:space="preserve">
+    <value>Added {0} packages to driver store.</value>
+    <comment>{0} - Placeholder for number of packages</comment>
+  </data>
+  <data name="Message_Drivers_Added_Installed" xml:space="preserve">
+    <value>Added {0} packages and installed to driver store.</value>
+    <comment>{0} - Placeholder for number of packages.</comment>
+  </data>
+  <data name="Message_Drivers_Added_Error" xml:space="preserve">
+    <value>Error adding some packages to driver store.</value>
+  </data>
+  <data name="Message_Drivers_Added_Installed_Error" xml:space="preserve">
+    <value>Error adding some packages and install to driver store.</value>
+  </data>
+  <data name="Menu_File_Export_Selected_Driver_List" xml:space="preserve">
+    <value>Export &amp;Selected Driver List</value>
+  </data>
+  <data name="Menu_Options_IncludeBootCritical" xml:space="preserve">
+    <value>Include Boot Critical in Old Drivers</value>
+  </data>
+  <data name="Dialog_Select_Offline_Store_Title" xml:space="preserve">
+    <value>Select the directory containing the Windows folder (not the Windows folder itself)</value>
+  </data>
+  <data name="Message_Invalid_Offline_Store_Title" xml:space="preserve">
+    <value>Invalid Directory Selection</value>
+  </data>
+  <data name="Message_Invalid_Offline_Store_Location" xml:space="preserve">
+    <value>The selected directory must contain a 'Windows' folder.
+
+Please select the root directory of a Windows installation or image (the directory that contains the Windows folder), not the Windows folder itself.</value>
+  </data>
+  <data name="Message_No_Old_Drivers_Found" xml:space="preserve">
+    <value>No old drivers found to select.</value>
   </data>
 </root>

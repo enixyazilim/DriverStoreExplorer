@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -177,6 +177,9 @@
   <data name="Context_Select_All" xml:space="preserve">
     <value>Seleziona tutto</value>
   </data>
+  <data name="Context_Invert_Selection" xml:space="preserve">
+    <value>&amp;Inverti selezione</value>
+  </data>
   <data name="Context_Select_Old" xml:space="preserve">
     <value>Seleziona driver obsoleti</value>
   </data>
@@ -193,7 +196,7 @@
     <value>Questo programma può essere eseguito solo in Windows Vista o versioni successive.</value>
   </data>
   <data name="Message_Sure" xml:space="preserve">
-    <value>Sei sicuro di voler procedere?</value>
+    <value>Vuoi procedere?</value>
   </data>
   <data name="Message_Title_Warning" xml:space="preserve">
     <value>Attenzione</value>
@@ -220,7 +223,7 @@ Prova a forzare l'eliminazione del pacchetto driver.</value>
   <data name="Menu_File" xml:space="preserve">
     <value>File</value>
   </data>
-  <data name="Menu_File_Export" xml:space="preserve">
+  <data name="Menu_File_Export_All_Driver_List" xml:space="preserve">
     <value>Esporta</value>
   </data>
   <data name="Menu_File_Exit" xml:space="preserve">
@@ -235,37 +238,34 @@ Prova a forzare l'eliminazione del pacchetto driver.</value>
   <data name="Message_No_Entries" xml:space="preserve">
     <value>Aggiornamento elenco driver....</value>
   </data>
-  <data name="Dialog_Open_Filter_Text" xml:space="preserve">
-    <value>Seleziona file INF</value>
+  <data name="Message_No_Match_Result" xml:space="preserve">
+    <value>Nessun risultato corrispondente.</value>
   </data>
-  <data name="Dialog_Open_Filters" xml:space="preserve">
-    <value>File INF | *.inf</value>
+  <data name="Dialog_Select_Inf_Folder" xml:space="preserve">
+    <value>Seleziona la cartella Inf</value>
   </data>
   <data name="Product_About_Title" xml:space="preserve">
-    <value>Informazioni su {0}</value>
+    <value>Info su {0}</value>
     <comment>{0} - Placeholder for Product_Name</comment>
   </data>
   <data name="Export_Error" xml:space="preserve">
     <value>Errore</value>
   </data>
   <data name="About_Project_Description" xml:space="preserve">
-    <value>Puoi trovare la versione aggiornata e le note di rilascio nel sito:
-
+    <value>Versione aggiornata e note di rilascio disponibili nel sito:
     https://github.com/lostindark/DriverStoreExplorer/releases
 
 Segnala un errore/richiedi una nuova funzionalità:
-
     https://github.com/lostindark/DriverStoreExplorer/issues
 
 Collaboratori:
-
     https://github.com/lostindark/DriverStoreExplorer/graphs/contributors
 
 Ringraziamenti:
+    https://github.com/lostindark/DriverStoreExplorer?tab=readme-ov-file#credits
 
-    ObjectListView http://objectlistview.sourceforge.net/
-	
-    Managed DismApi Wrapper https://github.com/jeffkl/ManagedDism
+Licenza:
+    https://github.com/lostindark/DriverStoreExplorer/blob/master/LICENSE
 </value>
   </data>
   <data name="UnitTest_Language" xml:space="preserve">
@@ -330,23 +330,29 @@ Ringraziamenti:
   <data name="Context_Open_Folder" xml:space="preserve">
     <value>Apri percorso cartella</value>
   </data>
+  <data name="Context_Open_Device_Properties" xml:space="preserve">
+    <value>Apri &amp;proprietà dispositivo</value>
+  </data>
   <data name="DriverStore_LocalMachine" xml:space="preserve">
     <value>Computer locale</value>
   </data>
   <data name="Menu_File_Choose_Driver_Store" xml:space="preserve">
-    <value>Seleziona locazione Driver Store</value>
+    <value>Seleziona percorso archivio driver</value>
   </data>
   <data name="DriverStore_Offline" xml:space="preserve">
-    <value>Driver Store Offline</value>
+    <value>Driver Store offline</value>
   </data>
   <data name="ChooseDriverStore_Title" xml:space="preserve">
-    <value>Seleziona sorgente Driver Store</value>
+    <value>Seleziona sorgente archivio driver</value>
   </data>
   <data name="Menu_Language" xml:space="preserve">
     <value>Lingua</value>
   </data>
   <data name="Column_DeviceName" xml:space="preserve">
     <value>Nome dispositivo</value>
+  </data>
+  <data name="Column_DeviceId" xml:space="preserve">
+    <value>ID dispositivo</value>
   </data>
   <data name="About_VersionUpToDate" xml:space="preserve">
     <value>(aggiornato)</value>
@@ -360,52 +366,71 @@ Ringraziamenti:
     <value>Download</value>
   </data>
   <data name="Message_Scanning_Driver_Store" xml:space="preserve">
-    <value>Scansione store driver...</value>
+    <value>Scansione archivio driver...</value>
   </data>
   <data name="Message_ForceDelete_Single_Package" xml:space="preserve">
-    <value>Forza eliminazione di '{0}'' ('{1}') dall'archivio dei driver.</value>
+    <value>Forza eliminazione di '{0}'' ('{1}') dall'archivio driver.</value>
     <comment>{0} - Placeholder for inf package file
 {1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_ForceDelete_Multiple_Packages" xml:space="preserve">
-    <value>Forza eliminazione di {0} driver dall'archivio dei driver.</value>
+    <value>Forza eliminazione di {0} driver dall'archivio driver.</value>
     <comment>{0} - Placeholder for number of packages</comment>
   </data>
   <data name="Message_Delete_Success" xml:space="preserve">
-    <value>Eliminazione da  '{0}' di '('{1}') 'Operazione completata'.</value>
+    <value>Eliminazione di {0} ({1}) completata.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
+  </data>
+  <data name="Message_Export_Success" xml:space="preserve">
+    <value>Esportazione driver {0} ({1}) completata.</value>
     <comment>{0} - Placeholder for inf package file
 {1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Delete_Fail" xml:space="preserve">
-    <value>Eliminazione da  '{0}' di '('{1}') 'Operazione fallita'.</value>
+    <value>Eliminazione di {0} ({1}) fallita.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
+  </data>
+  <data name="Message_Export_Fail" xml:space="preserve">
+    <value>Esportazione driver {0} ({1}) fallita.</value>
     <comment>{0} - Placeholder for inf package file
 {1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Driver_Added_Installed" xml:space="preserve">
-    <value>Aggiunto {0} il driver &amp; installato all'archivio driver.</value>
+    <value>Aggiunto edi installato il driver {0} nell'archivio driver.</value>
     <comment>{0} - Placeholder for path to inf</comment>
   </data>
   <data name="Message_Driver_Added_Installed_Error" xml:space="preserve">
-    <value>Errore nell'aggiunta del driver {0} &amp; installato all'archivio driver.</value>
+    <value>Errore nell'aggiunta del driver {0} e installato all'archivio driver.</value>
     <comment>{0} - Placeholder for path to inf</comment>
   </data>
   <data name="Button_Export_Drivers" xml:space="preserve">
     <value>&amp;Esporta driver</value>
   </data>
   <data name="Context_Export_Driver" xml:space="preserve">
-    <value>Esporta driver</value>
+    <value>&amp;Esporta driver</value>
   </data>
-  <data name="Menu_File_Export_All_Drivers" xml:space="preserve">
+  <data name="Button_Export_All_Drivers" xml:space="preserve">
     <value>Esporta tutti i driver</value>
   </data>
   <data name="Message_Export_All_Drivers_Fail" xml:space="preserve">
     <value>Esportazione di tutti i pacchetti driver fallita.</value>
   </data>
+  <data name="Message_Export_Drivers_Error" xml:space="preserve">
+    <value>Errore nell'esportazione di alcuni pacchetti driver.</value>
+  </data>
   <data name="Message_Export_All_Drivers_Success" xml:space="preserve">
     <value>Esportazione di tutti i pacchetti driver completata.</value>
   </data>
+  <data name="Message_Export_Drivers_Success" xml:space="preserve">
+    <value>Esportazione driver completata.</value>
+  </data>
   <data name="Status_Exporting_All_Drivers" xml:space="preserve">
-    <value>Esportazione di tutti i pacchetti driver...</value>
+    <value>Esportazione di tutti i driver...</value>
+  </data>
+  <data name="Status_Exporting_Drivers" xml:space="preserve">
+    <value>Esportazione driver...</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
     <value>Annulla</value>
@@ -418,5 +443,64 @@ Ringraziamenti:
   </data>
   <data name="Column_Text_False" xml:space="preserve">
     <value>Falso</value>
+  </data>
+  <data name="Column_Extension_Id" xml:space="preserve">
+    <value>ID estensione</value>
+  </data>
+  <data name="Column_InstallDate" xml:space="preserve">
+    <value>Data installazione</value>
+  </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>&amp;Opzioni</value>
+  </data>
+  <data name="Menu_Options_UseNativeDriverStore" xml:space="preserve">
+    <value>Usa archivbio driver nativo</value>
+  </data>
+  <data name="Menu_Options_UseDISM" xml:space="preserve">
+    <value>Usa DISM</value>
+  </data>
+  <data name="Menu_Options_UsePnpUtil" xml:space="preserve">
+    <value>Usa PnpUtil</value>
+  </data>
+  <data name="Message_Type_Here_To_Search" xml:space="preserve">
+    <value>Inserisci stringa da cercare</value>
+  </data>
+  <data name="Message_No_Inf_Found" xml:space="preserve">
+    <value>Nessun file inf trovato nella cartella {0}.</value>
+    <comment>{0} - Placeholder for the folder name</comment>
+  </data>
+  <data name="Message_Drivers_Added" xml:space="preserve">
+    <value>Aggiunti {0} pacchetti all'archivio driver.</value>
+    <comment>{0} - Placeholder for number of packages</comment>
+  </data>
+  <data name="Message_Drivers_Added_Installed" xml:space="preserve">
+    <value>Aggiunti ed installati {0} pacchetti nell'archivio driver.</value>
+    <comment>{0} - Placeholder for number of packages.</comment>
+  </data>
+  <data name="Message_Drivers_Added_Error" xml:space="preserve">
+    <value>Errore durante l'aggiunta di alcuni pacchetti all'archivio driver.</value>
+  </data>
+  <data name="Message_Drivers_Added_Installed_Error" xml:space="preserve">
+    <value>Errore durante l'aggiunta ed installazione di alcuni pacchetti all'archivio driver.</value>
+  </data>
+  <data name="Menu_File_Export_Selected_Driver_List" xml:space="preserve">
+    <value>Esporta elenco driver &amp;selezionati</value>
+  </data>
+  <data name="Menu_Options_IncludeBootCritical" xml:space="preserve">
+    <value>Includi driver critici per il boot nei driver vecchi</value>
+  </data>
+  <data name="Dialog_Select_Offline_Store_Title" xml:space="preserve">
+    <value>Seleziona la directory che contiene la cartella Windows (non la cartella Windows stessa)</value>
+  </data>
+  <data name="Message_Invalid_Offline_Store_Title" xml:space="preserve">
+    <value>Selezione directory non valida</value>
+  </data>
+  <data name="Message_Invalid_Offline_Store_Location" xml:space="preserve">
+    <value>La directory selezionata deve contenere una cartella 'Windows'.
+
+Seleziona la directory principale di un'installazione o immagine Windows (la directory che contiene la cartella Windows), non la cartella Windows stessa.</value>
+  </data>
+  <data name="Message_No_Old_Drivers_Found" xml:space="preserve">
+    <value>Nessun driver obsoleto trovato da selezionare.</value>
   </data>
 </root>

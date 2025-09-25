@@ -1,6 +1,7 @@
-﻿
-namespace Rapr
+﻿namespace Rapr
 {
+    using System;
+
     partial class DSEForm
     {
         /// <summary>
@@ -23,9 +24,11 @@ namespace Rapr
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ctxMenuSelect = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxMenuSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxMenuInvertSelection = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxMenuSelectOldDrivers = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ctxMenuOpenFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxMenuOpenDeviceProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ctxMenuExportDriver = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxMenuDelete = new System.Windows.Forms.ToolStripMenuItem();
@@ -37,24 +40,33 @@ namespace Rapr
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.gbOptions = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonSelectOldDrivers = new System.Windows.Forms.Button();
             this.buttonExportDrivers = new System.Windows.Forms.Button();
+            this.buttonExportAllDrivers = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chooseDriverStoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportAllDriversToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportSelectedDriverListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAllDriverListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewLogsTtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.useNativeDriveStoreStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.useDismStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.usePnpUtilStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.includeBootCriticalDriversStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.searchTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.pictureBoxSearchIcon = new System.Windows.Forms.PictureBox();
+            this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.lstDriverStoreEntries = new Rapr.MyObjectListView();
             this.driverInfColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.driverClassColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -65,6 +77,8 @@ namespace Rapr
             this.driverSizeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.deviceNameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.bootCriticalColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.deviceIdColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.installDateColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.dummyColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -72,6 +86,8 @@ namespace Rapr
             this.flowLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.searchTableLayoutPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSearchIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lstDriverStoreEntries)).BeginInit();
             this.SuspendLayout();
             // 
@@ -107,8 +123,10 @@ namespace Rapr
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ctxMenuSelect,
             this.ctxMenuSelectAll,
+            this.ctxMenuInvertSelection,
             this.ctxMenuSelectOldDrivers,
             this.toolStripSeparator1,
+            this.ctxMenuOpenDeviceProperties,
             this.ctxMenuOpenFolder,
             this.toolStripSeparator3,
             this.ctxMenuExportDriver,
@@ -131,6 +149,13 @@ namespace Rapr
             this.ctxMenuSelectAll.Text = global::Rapr.Lang.Language.Context_Select_All;
             this.ctxMenuSelectAll.Click += new System.EventHandler(this.CtxMenuSelectAll_Click);
             // 
+            // ctxMenuInvertSelection
+            // 
+            this.ctxMenuInvertSelection.Name = "ctxMenuInvertSelection";
+            this.ctxMenuInvertSelection.Size = new System.Drawing.Size(188, 22);
+            this.ctxMenuInvertSelection.Text = global::Rapr.Lang.Language.Context_Invert_Selection;
+            this.ctxMenuInvertSelection.Click += new System.EventHandler(CtxMenuInvertSelection_Click);
+            // 
             // ctxMenuSelectOldDrivers
             // 
             this.ctxMenuSelectOldDrivers.Name = "ctxMenuSelectOldDrivers";
@@ -142,6 +167,15 @@ namespace Rapr
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(185, 6);
+
+            // 
+            // ctxMenuOpenDeviceProperties
+            // 
+            this.ctxMenuOpenDeviceProperties.Name = "ctxMenuOpenDeviceProperties";
+            this.ctxMenuOpenDeviceProperties.Size = new System.Drawing.Size(188, 22);
+            this.ctxMenuOpenDeviceProperties.Text = global::Rapr.Lang.Language.Context_Open_Device_Properties;
+            this.ctxMenuOpenDeviceProperties.Click += new System.EventHandler(this.CtxMenuOpenDeviceProperties_Click);
+
             // 
             // ctxMenuOpenFolder
             // 
@@ -160,6 +194,7 @@ namespace Rapr
             this.ctxMenuExportDriver.Name = "ctxMenuExportDriver";
             this.ctxMenuExportDriver.Size = new System.Drawing.Size(188, 22);
             this.ctxMenuExportDriver.Text = global::Rapr.Lang.Language.Context_Export_Driver;
+            this.ctxMenuExportDriver.Click += new System.EventHandler(CtxMenuExportDriver_Click);
             // 
             // ctxMenuDelete
             // 
@@ -249,12 +284,6 @@ namespace Rapr
             this.lblStatus.Text = global::Rapr.Lang.Language.Status_Label;
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // openFileDialog
-            // 
-            this.openFileDialog.Filter = global::Rapr.Lang.Language.Dialog_Open_Filters;
-            this.openFileDialog.SupportMultiDottedExtensions = true;
-            this.openFileDialog.Title = global::Rapr.Lang.Language.Dialog_Open_Filter_Text;
-            // 
             // gbOptions
             // 
             this.gbOptions.AutoSize = true;
@@ -277,13 +306,14 @@ namespace Rapr
             this.flowLayoutPanel1.Controls.Add(this.cbForceDeletion);
             this.flowLayoutPanel1.Controls.Add(this.buttonSelectOldDrivers);
             this.flowLayoutPanel1.Controls.Add(this.buttonExportDrivers);
+            this.flowLayoutPanel1.Controls.Add(this.buttonExportAllDrivers);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(6);
             this.flowLayoutPanel1.Size = new System.Drawing.Size(142, 654);
-            this.flowLayoutPanel1.TabIndex = 0;
+            this.flowLayoutPanel1.TabStop = false;
             // 
             // buttonSelectOldDrivers
             // 
@@ -307,11 +337,25 @@ namespace Rapr
             this.buttonExportDrivers.TabIndex = 6;
             this.buttonExportDrivers.Text = global::Rapr.Lang.Language.Button_Export_Drivers;
             this.buttonExportDrivers.UseVisualStyleBackColor = true;
+            this.buttonExportDrivers.Click += new System.EventHandler(ButtonExportDrivers_Click);
+            // 
+            // buttonExportAllDrivers
+            // 
+            this.buttonExportAllDrivers.AutoSize = true;
+            this.buttonExportAllDrivers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonExportAllDrivers.Location = new System.Drawing.Point(9, 171);
+            this.buttonExportAllDrivers.Name = "buttonExportAllDrivers";
+            this.buttonExportAllDrivers.Size = new System.Drawing.Size(124, 23);
+            this.buttonExportAllDrivers.TabIndex = 7;
+            this.buttonExportAllDrivers.Text = global::Rapr.Lang.Language.Button_Export_All_Drivers;
+            this.buttonExportAllDrivers.UseVisualStyleBackColor = true;
+            this.buttonExportAllDrivers.Click += new System.EventHandler(ButtonExportAllDrivers_Click);
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.optionsStripMenuItem,
             this.languageToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(2, 2);
@@ -325,8 +369,8 @@ namespace Rapr
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.chooseDriverStoreToolStripMenuItem,
             this.toolStripSeparator5,
-            this.exportToolStripMenuItem,
-            this.exportAllDriversToolStripMenuItem,
+            this.exportSelectedDriverListToolStripMenuItem,
+            this.exportAllDriverListToolStripMenuItem,
             this.viewLogsTtoolStripMenuItem,
             this.toolStripSeparator4,
             this.exitToolStripMenuItem});
@@ -346,19 +390,19 @@ namespace Rapr
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(175, 6);
             // 
-            // exportToolStripMenuItem
+            // exportSelectedDriverListToolStripMenuItem
             // 
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.exportToolStripMenuItem.Text = global::Rapr.Lang.Language.Menu_File_Export;
-            this.exportToolStripMenuItem.Click += new System.EventHandler(this.ExportToolStripMenuItem_Click);
+            this.exportSelectedDriverListToolStripMenuItem.Name = "exportSelectedDriverListToolStripMenuItem";
+            this.exportSelectedDriverListToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.exportSelectedDriverListToolStripMenuItem.Text = global::Rapr.Lang.Language.Menu_File_Export_Selected_Driver_List;
+            this.exportSelectedDriverListToolStripMenuItem.Click += new System.EventHandler(this.ExportSelectedDriverListToolStripMenuItem_Click);
             // 
-            // exportAllDriversToolStripMenuItem
+            // exportAllDriverListToolStripMenuItem
             // 
-            this.exportAllDriversToolStripMenuItem.Name = "exportAllDriversToolStripMenuItem";
-            this.exportAllDriversToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.exportAllDriversToolStripMenuItem.Text = global::Rapr.Lang.Language.Menu_File_Export_All_Drivers;
-            this.exportAllDriversToolStripMenuItem.Click += new System.EventHandler(this.ExportAllDriversToolStripMenuItem_Click);
+            this.exportAllDriverListToolStripMenuItem.Name = "exportAllDriverListToolStripMenuItem";
+            this.exportAllDriverListToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.exportAllDriverListToolStripMenuItem.Text = global::Rapr.Lang.Language.Menu_File_Export_All_Driver_List;
+            this.exportAllDriverListToolStripMenuItem.Click += new System.EventHandler(this.ExportAllDriverListToolStripMenuItem_Click);
             // 
             // viewLogsTtoolStripMenuItem
             // 
@@ -378,6 +422,56 @@ namespace Rapr
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.exitToolStripMenuItem.Text = global::Rapr.Lang.Language.Menu_File_Exit;
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.useNativeDriveStoreStripMenuItem,
+            this.useDismStripMenuItem,
+            this.usePnpUtilStripMenuItem,
+            this.toolStripSeparator6,
+            this.includeBootCriticalDriversStripMenuItem
+            });
+            this.optionsStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.optionsStripMenuItem.Text = global::Rapr.Lang.Language.Menu_Options;
+            // 
+            // useDriveStoreAPIStripMenuItem
+            // 
+            this.useNativeDriveStoreStripMenuItem.Name = "useNativeDriveStoreStripMenuItem";
+            this.useNativeDriveStoreStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.useNativeDriveStoreStripMenuItem.Text = global::Rapr.Lang.Language.Menu_Options_UseNativeDriverStore;
+            this.useNativeDriveStoreStripMenuItem.Checked = true;
+            this.useNativeDriveStoreStripMenuItem.Click += new System.EventHandler(this.UseNativeDriveStoreStripMenuItem_Click);
+            // 
+            // useDismStripMenuItem
+            // 
+            this.useDismStripMenuItem.Name = "useDismStripMenuItem";
+            this.useDismStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.useDismStripMenuItem.Text = global::Rapr.Lang.Language.Menu_Options_UseDISM;
+            this.useDismStripMenuItem.Checked = false;
+            this.useDismStripMenuItem.Click += new System.EventHandler(this.UseDismStripMenuItem_Click);
+            // 
+            // usePnpUtilStripMenuItem
+            // 
+            this.usePnpUtilStripMenuItem.Name = "usePnpUtilStripMenuItem";
+            this.usePnpUtilStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.usePnpUtilStripMenuItem.Text = global::Rapr.Lang.Language.Menu_Options_UsePnpUtil;
+            this.usePnpUtilStripMenuItem.Checked = false;
+            this.usePnpUtilStripMenuItem.Click += new System.EventHandler(this.UsePnpUtilStripMenuItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(175, 6);
+            // 
+            // includeBootCriticalDriversStripMenuItem
+            // 
+            this.includeBootCriticalDriversStripMenuItem.CheckOnClick = true;
+            this.includeBootCriticalDriversStripMenuItem.Name = "includeBootCriticalDriversStripMenuItem";
+            this.includeBootCriticalDriversStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.includeBootCriticalDriversStripMenuItem.Text = global::Rapr.Lang.Language.Menu_Options_IncludeBootCritical;
+            this.includeBootCriticalDriversStripMenuItem.Click += new System.EventHandler(this.IncludeBootCriticalDriversStripMenuItem_Click);
             // 
             // languageToolStripMenuItem
             // 
@@ -406,15 +500,58 @@ namespace Rapr
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.searchTableLayoutPanel, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lstDriverStoreEntries, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.gbOptions, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lstDriverStoreEntries, 0, 0);
+            this.tableLayoutPanel1.SetRowSpan(this.gbOptions, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 26);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1004, 679);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.tableLayoutPanel1.TabStop = false;
+            // 
+            // searchTableLayoutPanel
+            // 
+            this.searchTableLayoutPanel.ColumnCount = 2;
+            this.searchTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.searchTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.searchTableLayoutPanel.Controls.Add(this.pictureBoxSearchIcon, 0, 0);
+            this.searchTableLayoutPanel.Controls.Add(this.textBoxSearch, 1, 0);
+            this.searchTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.searchTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.searchTableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.searchTableLayoutPanel.Name = "searchTableLayoutPanel";
+            this.searchTableLayoutPanel.RowCount = 1;
+            this.searchTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.searchTableLayoutPanel.Size = new System.Drawing.Size(1247, 24);
+            this.searchTableLayoutPanel.TabStop = false;
+            // 
+            // pictureBoxSearchIcon
+            // 
+            this.pictureBoxSearchIcon.Image = Rapr.Properties.Resources.Search.ToBitmap();
+            this.pictureBoxSearchIcon.Name = "pictureBoxSearchIcon";
+            this.pictureBoxSearchIcon.Size = new System.Drawing.Size(16, 16);
+            this.pictureBoxSearchIcon.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBoxSearchIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxSearchIcon.TabStop = false;
+            // 
+            // textBoxSearch
+            // 
+            this.textBoxSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.textBoxSearch.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxSearch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxSearch.Name = "textBoxSearch";
+            this.textBoxSearch.Size = new System.Drawing.Size(300, 30);
+            this.textBoxSearch.TabIndex = 1;
+            this.textBoxSearch.Text = global::Rapr.Lang.Language.Message_Type_Here_To_Search;
+            this.textBoxSearch.Enter += new System.EventHandler(this.TextBoxSearch_Enter);
+            this.textBoxSearch.Leave += new System.EventHandler(this.TextBoxSearch_Leave);
+            this.textBoxSearch.GotFocus += new System.EventHandler(this.TextBoxSearch_Enter);
+            this.textBoxSearch.LostFocus += new System.EventHandler(this.TextBoxSearch_Leave);
+            this.textBoxSearch.TextChanged += new System.EventHandler(this.TextBoxSearch_TextChanged);
             // 
             // lstDriverStoreEntries
             // 
@@ -425,10 +562,12 @@ namespace Rapr
             this.lstDriverStoreEntries.AllColumns.Add(this.driverProviderColumn);
             this.lstDriverStoreEntries.AllColumns.Add(this.driverVersionColumn);
             this.lstDriverStoreEntries.AllColumns.Add(this.driverDateColumn);
+            this.lstDriverStoreEntries.AllColumns.Add(this.installDateColumn);
             this.lstDriverStoreEntries.AllColumns.Add(this.driverSizeColumn);
             this.lstDriverStoreEntries.AllColumns.Add(this.driverSignerColumn);
             this.lstDriverStoreEntries.AllColumns.Add(this.deviceNameColumn);
             this.lstDriverStoreEntries.AllColumns.Add(this.bootCriticalColumn);
+            this.lstDriverStoreEntries.AllColumns.Add(this.deviceIdColumn);
             this.lstDriverStoreEntries.AllColumns.Add(this.dummyColumn);
             this.lstDriverStoreEntries.AllowColumnReorder = true;
             this.lstDriverStoreEntries.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -440,6 +579,7 @@ namespace Rapr
             this.driverProviderColumn,
             this.driverVersionColumn,
             this.driverDateColumn,
+            this.installDateColumn,
             this.driverSizeColumn,
             this.deviceNameColumn,
             this.dummyColumn});
@@ -459,6 +599,7 @@ namespace Rapr
             this.lstDriverStoreEntries.UseCellFormatEvents = true;
             this.lstDriverStoreEntries.UseCompatibleStateImageBehavior = false;
             this.lstDriverStoreEntries.View = System.Windows.Forms.View.Details;
+            this.lstDriverStoreEntries.UseFiltering = true;
             this.lstDriverStoreEntries.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.LstDriverStoreEntries_FormatCell);
             this.lstDriverStoreEntries.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.LstDriverStoreEntries_FormatRow);
             this.lstDriverStoreEntries.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.LstDriverStoreEntries_ItemChecked);
@@ -522,6 +663,24 @@ namespace Rapr
             this.bootCriticalColumn.AspectName = "BootCritical";
             this.bootCriticalColumn.IsVisible = false;
             this.bootCriticalColumn.Text = global::Rapr.Lang.Language.Column_BootCritical;
+
+            // 
+            // deviceIdColumn
+            // 
+            this.deviceIdColumn.AspectName = "DeviceId";
+            this.deviceIdColumn.IsVisible = false;
+            this.deviceIdColumn.Text = global::Rapr.Lang.Language.Column_DeviceId;
+
+            // 
+            // installDateColumn
+            // 
+            this.installDateColumn.AspectName = "InstallDate";
+            this.installDateColumn.AspectToStringFormat = global::Rapr.Lang.Language.Date_Format;
+            this.installDateColumn.IsVisible = false;
+            this.installDateColumn.Text = global::Rapr.Lang.Language.Column_InstallDate;
+            this.installDateColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.installDateColumn.Width = 80;
+
             // 
             // dummyColumn
             // 
@@ -557,10 +716,12 @@ namespace Rapr
             this.menuStrip1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.searchTableLayoutPanel.ResumeLayout(false);
+            this.searchTableLayoutPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSearchIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lstDriverStoreEntries)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -579,9 +740,9 @@ namespace Rapr
         private System.Windows.Forms.CheckBox cbAddInstall;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
-        private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem ctxMenuSelectAll;
+        private System.Windows.Forms.ToolStripMenuItem ctxMenuInvertSelection;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.GroupBox gbOptions;
         private System.Windows.Forms.ToolStripMenuItem ctxMenuDelete;
@@ -594,26 +755,39 @@ namespace Rapr
         private System.Windows.Forms.ToolStripMenuItem ctxMenuSelectOldDrivers;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionsStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem useNativeDriveStoreStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem useDismStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem usePnpUtilStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem includeBootCriticalDriversStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem languageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem viewLogsTtoolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportSelectedDriverListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportAllDriverListToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private BrightIdeasSoftware.OLVColumn dummyColumn;
         private System.Windows.Forms.ToolStripMenuItem ctxMenuOpenFolder;
+        private System.Windows.Forms.ToolStripMenuItem ctxMenuOpenDeviceProperties;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem chooseDriverStoreToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private BrightIdeasSoftware.OLVColumn deviceNameColumn;
-        private System.Windows.Forms.ToolStripMenuItem exportAllDriversToolStripMenuItem;
         private System.Windows.Forms.Button buttonExportDrivers;
+        private System.Windows.Forms.Button buttonExportAllDrivers;
         private System.Windows.Forms.ToolStripMenuItem ctxMenuExportDriver;
         private BrightIdeasSoftware.OLVColumn bootCriticalColumn;
         private BrightIdeasSoftware.OLVColumn driverExtensionIdColumn;
+        private BrightIdeasSoftware.OLVColumn deviceIdColumn;
+        private BrightIdeasSoftware.OLVColumn installDateColumn;
+        private System.Windows.Forms.TableLayoutPanel searchTableLayoutPanel;
+        private System.Windows.Forms.PictureBox pictureBoxSearchIcon;
+        private System.Windows.Forms.TextBox textBoxSearch;
     }
 }
 

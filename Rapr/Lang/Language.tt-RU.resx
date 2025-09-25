@@ -118,31 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Button_Add_Package" xml:space="preserve">
-    <value>&amp;Adicionar driver</value>
+    <value>Драйверны өстәү (&amp;A)</value>
   </data>
   <data name="Button_Delete_Package" xml:space="preserve">
-    <value>E&amp;xcluir driver</value>
+    <value>Драйвер(лар)ны бетерү (&amp;D)</value>
   </data>
   <data name="Button_OK" xml:space="preserve">
-    <value>&amp;OK</value>
+    <value>Ярый (&amp;O)</value>
   </data>
   <data name="Button_Refresh" xml:space="preserve">
-    <value>Atuali&amp;zar</value>
+    <value>Яңарту (&amp;R)</value>
   </data>
   <data name="Button_Select_Old" xml:space="preserve">
-    <value>&amp;Selecionar drivers antigos</value>
+    <value>Иске драйвер(лар)ны сайлау (&amp;S)</value>
   </data>
   <data name="Check_Force_Delete" xml:space="preserve">
-    <value>&amp;Forçar exclusão</value>
+    <value>Көчләүле бетерү (&amp;N)</value>
   </data>
   <data name="Check_Install_Driver" xml:space="preserve">
-    <value>&amp;Instalar driver</value>
+    <value>Драйверны утырту (&amp;I)</value>
   </data>
   <data name="Column_Date" xml:space="preserve">
-    <value>Data do driver</value>
+    <value>Драйвер вакыты</value>
   </data>
   <data name="Column_Driver_Class" xml:space="preserve">
-    <value>Classe do driver</value>
+    <value>Драйвер сыйныфы</value>
   </data>
   <data name="Column_Inf" xml:space="preserve">
     <value>INF</value>
@@ -151,322 +151,355 @@
     <value>OEM INF</value>
   </data>
   <data name="Column_Provider" xml:space="preserve">
-    <value>Fornecedor</value>
+    <value>Provider</value>
   </data>
   <data name="Column_Signed_By" xml:space="preserve">
-    <value>Assinado por</value>
+    <value>Имзаланган</value>
   </data>
   <data name="Column_Size" xml:space="preserve">
-    <value>Tamanho</value>
+    <value>Зурлык</value>
   </data>
   <data name="Column_Version" xml:space="preserve">
-    <value>Versão do driver</value>
+    <value>Драйвер версиясе</value>
   </data>
   <data name="Context_Delete" xml:space="preserve">
-    <value>Excluir</value>
+    <value>Бетерү</value>
   </data>
   <data name="Context_Deselect" xml:space="preserve">
-    <value>&amp;Desmarcar</value>
+    <value>Сайлауны баш тарту (&amp;D)</value>
   </data>
   <data name="Context_Deselect_All" xml:space="preserve">
-    <value>Desmarcar &amp;todos</value>
+    <value>Барлык сайлауны баш тарту (&amp;A)</value>
   </data>
   <data name="Context_Select" xml:space="preserve">
-    <value>&amp;Selecionar</value>
+    <value>Сайлау (&amp;S)</value>
   </data>
   <data name="Context_Select_All" xml:space="preserve">
-    <value>Selecionar &amp;todos</value>
-  </data>
-  <data name="Context_Invert_Selection" xml:space="preserve">
-    <value>&amp;Inverter seleção</value>
+    <value>Барлыкны сайлау (&amp;A)</value>
   </data>
   <data name="Context_Select_Old" xml:space="preserve">
-    <value>Selecionar drivers &amp;antigos</value>
+    <value>Иске драйверларны сайлау (&amp;O)</value>
+  </data>
+  <data name="Context_Invert_Selection" xml:space="preserve">
+    <value>Сайлауны алыштыру (&amp;I)</value>
   </data>
   <data name="Message_Delete_Multiple_Packages" xml:space="preserve">
-    <value>Prestes a excluir {0} pacotes do armazenamento de drivers.</value>
+    <value>{0} пакет драйверны саклау урыныннан бетерелүгә.</value>
+    <comment>{0} - Placeholder for number of packages</comment>
   </data>
   <data name="Message_Delete_Single_Package" xml:space="preserve">
-    <value>Prestes a excluir {0} ({1}) do armazenamento de drivers.</value>
+    <value>{0} ({1}) драйверны саклау урыныннан бетерелүгә әзер.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Requires_Later_OS" xml:space="preserve">
-    <value>Este utilitário não pode ser executado em sistemas anteriores ao Windows Vista.</value>
+    <value>Программаны Vista ОС'ына кадәр кабызып булмый.</value>
   </data>
   <data name="Message_Sure" xml:space="preserve">
-    <value>Você tem certeza?</value>
+    <value>Сез ышанасызмы?</value>
   </data>
   <data name="Message_Title_Warning" xml:space="preserve">
-    <value>Aviso</value>
+    <value>Кисәтү</value>
   </data>
   <data name="Operations_Text" xml:space="preserve">
-    <value>Operações</value>
+    <value>Операцияләр</value>
   </data>
   <data name="Product_Name" xml:space="preserve">
     <value>Driver Store Explorer</value>
   </data>
   <data name="Status_Label" xml:space="preserve">
-    <value>Pronto</value>
+    <value>Әзер</value>
   </data>
   <data name="Tip_Driver_In_Use" xml:space="preserve">
-    <value>[DICA: O driver ainda pode estar em uso. Tente FORÇAR a exclusão do pacote]</value>
+    <value>[КИҢӘШ: Драйвер әлегә кулланыла ала. Пакетны КӨЧЛӘҮЛЕ бетереп карагыз]</value>
   </data>
   <data name="Menu_Help" xml:space="preserve">
-    <value>A&amp;juda</value>
+    <value>Ярдәм (&amp;H)</value>
   </data>
   <data name="Menu_Help_About" xml:space="preserve">
-    <value>So&amp;bre</value>
+    <value>Программа турында (&amp;A)</value>
   </data>
   <data name="Menu_File" xml:space="preserve">
-    <value>&amp;Arquivo</value>
+    <value>Файл (&amp;F)</value>
   </data>
   <data name="Menu_File_Export_All_Driver_List" xml:space="preserve">
-    <value>&amp;Exportar lista de drivers</value>
+    <value>Драйвер исемлеген экспортлау (&amp;E)</value>
   </data>
   <data name="Menu_File_Exit" xml:space="preserve">
-    <value>&amp;Sair</value>
+    <value>Чыгу (&amp;X)</value>
   </data>
   <data name="Menu_File_View_Logs" xml:space="preserve">
-    <value>&amp;Visualizar registros</value>
+    <value>Журналын карау (&amp;V)</value>
+  </data>
+  <data name="Menu_File_Export_Selected_Driver_List" xml:space="preserve">
+    <value>Сайланган &amp;драйвер исемлеген экспорт итү</value>
+  </data>
+  <data name="Menu_Options_IncludeBootCritical" xml:space="preserve">
+    <value>Иске драйверларга ачылыш өчен критик драйверларны кертү</value>
   </data>
   <data name="Date_Format" xml:space="preserve">
     <value>{0:d}</value>
   </data>
   <data name="Message_No_Entries" xml:space="preserve">
-    <value>Nenhuma entrada carregada.</value>
-  </data>
-  <data name="Message_No_Match_Result" xml:space="preserve">
-    <value>Nenhum resultado.</value>
+    <value>Язмалар йөкләмәде</value>
   </data>
   <data name="Product_About_Title" xml:space="preserve">
-    <value>Sobre o {0}</value>
+    <value>{0} турында</value>
+    <comment>{0} - Placeholder for Product_Name</comment>
   </data>
   <data name="Export_Error" xml:space="preserve">
-    <value>Erro</value>
+    <value>Хата</value>
   </data>
   <data name="About_Project_Description" xml:space="preserve">
-    <value>Você pode encontrar a versão mais recente e notas de lançamento aqui:
+    <value>Сез иң соңгы версияне һәм чыгарылыш язмаларын монда таба аласыз:
     https://github.com/lostindark/DriverStoreExplorer/releases
 
-Reportar bugs/solicitação de recursos:
+Хата турында язма яки функцияне сорау:
     https://github.com/lostindark/DriverStoreExplorer/issues
 
-Colaboradores:
+Өлеш кертүчеләр:
     https://github.com/lostindark/DriverStoreExplorer/graphs/contributors
 
-Créditos:
+Кредитлар:
     https://github.com/lostindark/DriverStoreExplorer?tab=readme-ov-file#credits
 
-Licença:
+Лицензия:
     https://github.com/lostindark/DriverStoreExplorer/blob/master/LICENSE
 </value>
   </data>
   <data name="UnitTest_Language" xml:space="preserve">
-    <value>Português (Brasil)</value>
+    <value>Татарча (Tatar)</value>
   </data>
   <data name="Dialog_Export_Filters" xml:space="preserve">
-    <value>Arquivos CSV | *.csv</value>
+    <value>CSV файллары | *.csv</value>
   </data>
   <data name="Status_Adding_Package" xml:space="preserve">
-    <value>Adicionando pacote de driver...</value>
+    <value>Драйвер пакетын өстәү...</value>
   </data>
   <data name="Status_Deleting_Packages" xml:space="preserve">
-    <value>Excluindo pacote(s) de driver...</value>
+    <value>Драйвер пакет(лар)ын бетерү...</value>
   </data>
   <data name="Message_Delete_Package" xml:space="preserve">
-    <value>Removido {0} ({1}) do armazenamento de drivers.</value>
+    <value>{0} ({1}) драйверны саклау урыныннан бетерелде.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Delete_Packages" xml:space="preserve">
-    <value>Removidos {0} pacotes do armazenamento de drivers.</value>
+    <value>{0} пакет драйверны саклау урыныннан бетерелде.</value>
+    <comment>{0} - Placeholder for number of packages</comment>
   </data>
   <data name="Message_Delete_Package_Error" xml:space="preserve">
-    <value>Erro ao remover {0} ({1}) do armazenamento de drivers.</value>
+    <value>{0} ({1}) драйверны саклау урыныннан бетерелгәндә хата.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Delete_Packages_Error" xml:space="preserve">
-    <value>Erro ao remover alguns pacotes do armazenamento de drivers.</value>
+    <value>Кайбер пакетлар драйверны саклау урыныннан бетерелгәндә хата.</value>
   </data>
   <data name="Message_Driver_Added" xml:space="preserve">
-    <value>Adicionado pacote {0} ao armazenamento de drivers.</value>
+    <value>{0} пакеты драйверны саклау урынына өстәлде.</value>
+    <comment>{0} - Placeholder for path to inf</comment>
   </data>
   <data name="Message_Driver_Added_Error" xml:space="preserve">
-    <value>Erro ao adicionar pacote {0} ao armazenamento de drivers.</value>
+    <value>{0} пакеты драйверны саклау урынына өстәлгәндә хата.</value>
+    <comment>{0} - Placeholder for path to inf</comment>
   </data>
   <data name="Message_Log_File_NotFound" xml:space="preserve">
-    <value>O arquivo de registro não foi encontrado.</value>
+    <value>Журнал файлы табып булмый.</value>
   </data>
   <data name="Message_Error" xml:space="preserve">
-    <value>Erro</value>
+    <value>Хата</value>
   </data>
   <data name="Export_Complete" xml:space="preserve">
-    <value>Conteúdo salvo em {0}. Exportar concluído.</value>
+    <value>Эчендәгесе {0} урынына сакланды. Экспортланды.</value>
+    <comment>{0} - Placeholder for export path</comment>
   </data>
   <data name="Export_Failed" xml:space="preserve">
-    <value>Falha ao exportar: {0}</value>
+    <value>Экспортлап булмады: {0}</value>
+    <comment>{0} - Placeholder for error message</comment>
   </data>
   <data name="Status_Selected_Drivers" xml:space="preserve">
-    <value>Selecionado(s) {0} driver(s). Tamanho total: {1}.</value>
+    <value>{0} драйвер сайланды. Барлыгы зурлык: {1}.</value>
+    <comment>{0} - Placeholder for number of selected Drivers
+{1} - Placeholder for disk space</comment>
   </data>
   <data name="Status_No_Drivers_Selected" xml:space="preserve">
-    <value>Nenhum driver selecionado.</value>
+    <value>Драиверлар сайланмады.</value>
   </data>
   <data name="Context_Open_Folder" xml:space="preserve">
-    <value>Abrir &amp;local da pasta</value>
-  </data>
-  <data name="Context_Open_Device_Properties" xml:space="preserve">
-    <value>Abrir &amp;propriedades do dispositivo</value>
+    <value>Папка урынын ачу (&amp;F)</value>
   </data>
   <data name="DriverStore_LocalMachine" xml:space="preserve">
-    <value>Máquina local</value>
+    <value>Локаль машина</value>
   </data>
   <data name="Menu_File_Choose_Driver_Store" xml:space="preserve">
-    <value>Es&amp;colher o armazenamento de drivers</value>
+    <value>Драйверны саклау урыны сайлау (&amp;C)</value>
   </data>
   <data name="DriverStore_Offline" xml:space="preserve">
-    <value>Armazenamento de drivers off-line</value>
+    <value>Офлайн драйвер саклау урыны</value>
   </data>
   <data name="ChooseDriverStore_Title" xml:space="preserve">
-    <value>Es&amp;colher o armazenamento de drivers</value>
+    <value>Драйвер урынын сайлау (&amp;C)</value>
   </data>
   <data name="Menu_Language" xml:space="preserve">
-    <value>&amp;Idioma</value>
+    <value>Тел (&amp;L)</value>
   </data>
   <data name="Column_DeviceName" xml:space="preserve">
-    <value>Nome do dispositivo</value>
-  </data>
-  <data name="Column_DeviceId" xml:space="preserve">
-    <value>ID do dispositivo</value>
+    <value>Җайланма исеме</value>
   </data>
   <data name="About_VersionUpToDate" xml:space="preserve">
-    <value>(Atualizado)</value>
+    <value>(соңгы)</value>
   </data>
   <data name="About_FoundNewVersion" xml:space="preserve">
-    <value>(Nova versão {0} disponível - {1})</value>
+    <value>(Яңа v{0} версиясе табылды — {1})</value>
+    <comment>{0} - Placeholder for version number
+{1} - Placeholder for About_Download</comment>
   </data>
   <data name="About_Download" xml:space="preserve">
-    <value>Baixar</value>
+    <value>Йөкләнү</value>
   </data>
   <data name="Message_Scanning_Driver_Store" xml:space="preserve">
-    <value>Verificando armazenamento de drivers...</value>
+    <value>Драйвер саклау урынын сканлау...</value>
   </data>
   <data name="Message_ForceDelete_Single_Package" xml:space="preserve">
-    <value>Prestes a forçar excluir {0} ({1}) do armazenamento de drivers.</value>
+    <value>{0} ({1}) драйверны саклау урыныннан көчләүле бетерелүгә әзер.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_ForceDelete_Multiple_Packages" xml:space="preserve">
-    <value>Prestes a excluir {0} pacotes do armazenamento de drivers.</value>
+    <value>{0} пакет драйверны саклау урыныннан көчләүле бетерелүгә әзер.</value>
+    <comment>{0} - Placeholder for number of packages</comment>
   </data>
   <data name="Message_Delete_Success" xml:space="preserve">
-    <value>Exclusão de {0} ({1}) bem sucedido.</value>
-  </data>
-  <data name="Message_Export_Success" xml:space="preserve">
-    <value>Exportar driver {0} ({1}) bem sucedido.</value>
+    <value>{0} ({1}) бетерелде.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Delete_Fail" xml:space="preserve">
-    <value>Falha ao excluir {0} ({1}).</value>
-  </data>
-  <data name="Message_Export_Fail" xml:space="preserve">
-    <value>Falha ao exportar driver {0} ({1}).</value>
+    <value>{0} ({1}) бетереп булмады.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
   </data>
   <data name="Message_Driver_Added_Installed" xml:space="preserve">
-    <value>Adicionado pacote {0} e instalado no armazenamento de drivers.</value>
+    <value>{0} пакет өстәлде һәм драйверны саклау урынына утыртылды.</value>
+    <comment>{0} - Placeholder for path to inf</comment>
   </data>
   <data name="Message_Driver_Added_Installed_Error" xml:space="preserve">
-    <value>Erro ao adicionar pacote {0} e instalado ao armazenamento de drivers.</value>
+    <value>{0} пакет өстәлгәндә һәм драйверны саклау урынына утыртылганда хата булды.</value>
+    <comment>{0} - Placeholder for path to inf</comment>
   </data>
   <data name="Button_Export_Drivers" xml:space="preserve">
-    <value>&amp;Exportar driver(s)</value>
+    <value>Драйвер(лар)ны экспортлау (&amp;E)</value>
   </data>
   <data name="Context_Export_Driver" xml:space="preserve">
-    <value>&amp;Exportar driver</value>
+    <value>Драйверны экспортлау (&amp;E)</value>
   </data>
   <data name="Button_Export_All_Drivers" xml:space="preserve">
-    <value>Ex&amp;portar todos os drivers</value>
+    <value>Барлык драйверларны экспортлау (&amp;P)</value>
   </data>
   <data name="Message_Export_All_Drivers_Fail" xml:space="preserve">
-    <value>Falha ao exportar todos os pacotes de drivers.</value>
-  </data>
-  <data name="Message_Export_Drivers_Error" xml:space="preserve">
-    <value>Erro ao exportar alguns pacotes de drivers.</value>
+    <value>Барлык драйвер пакетлары экспортланмады.</value>
   </data>
   <data name="Message_Export_All_Drivers_Success" xml:space="preserve">
-    <value>Todos os pacotes de drivers exportados com sucesso.</value>
-  </data>
-  <data name="Message_Export_Drivers_Success" xml:space="preserve">
-    <value>Pacotes de drivers exportados com sucesso.</value>
+    <value>Барлык драйвер пакетлары экспортланды.</value>
   </data>
   <data name="Status_Exporting_All_Drivers" xml:space="preserve">
-    <value>Exportando todos os pacotes de drivers...</value>
-  </data>
-  <data name="Status_Exporting_Drivers" xml:space="preserve">
-    <value>Exportando pacote(s) de driver(s)...</value>
+    <value>Барлык драйвер пакетларны экспортлау...</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
-    <value>&amp;Cancelar</value>
+    <value>Баш тарту (&amp;C)</value>
   </data>
   <data name="Column_BootCritical" xml:space="preserve">
-    <value>Crítico na inicialização</value>
+    <value>Кабызу өчен мөһим</value>
   </data>
   <data name="Column_Text_True" xml:space="preserve">
-    <value>Verdadeiro</value>
+    <value>Дөрес</value>
   </data>
   <data name="Column_Text_False" xml:space="preserve">
-    <value>Falso</value>
+    <value>Ялган</value>
   </data>
   <data name="Column_Extension_Id" xml:space="preserve">
-    <value>ID da extensão</value>
+    <value>Өстәмәнең ID'ы</value>
   </data>
   <data name="Column_InstallDate" xml:space="preserve">
-    <value>Data de instalação</value>
+    <value>Урнаштыру датасы</value>
   </data>
-  <data name="Menu_Options" xml:space="preserve">
-    <value>&amp;Opções</value>
-  </data>
-  <data name="Menu_Options_UseNativeDriverStore" xml:space="preserve">
-    <value>Usar armazenamento de drivers nativo</value>
-  </data>
-  <data name="Menu_Options_UseDISM" xml:space="preserve">
-    <value>Usar DISM</value>
-  </data>
-  <data name="Menu_Options_UsePnpUtil" xml:space="preserve">
-    <value>Usar PnpUtil</value>
-  </data>
-  <data name="Message_Type_Here_To_Search" xml:space="preserve">
-    <value>Digite aqui para pesquisar</value>
+  <data name="Message_No_Match_Result" xml:space="preserve">
+    <value>Туры килгән нәтижә юк.</value>
   </data>
   <data name="Dialog_Select_Inf_Folder" xml:space="preserve">
-    <value>Selecione a pasta INF</value>
+    <value>Inf папкасын сайлау</value>
+  </data>
+  <data name="Context_Open_Device_Properties" xml:space="preserve">
+    <value>Җайланма үзлекләрен ачу (&amp;P)</value>
+  </data>
+  <data name="Column_DeviceId" xml:space="preserve">
+    <value>Җайланма ID'ы</value>
+  </data>
+  <data name="Message_Export_Success" xml:space="preserve">
+    <value>{0} ({1}) драйверын экспортлау уңышлы.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
+  </data>
+  <data name="Message_Export_Fail" xml:space="preserve">
+    <value>{0} ({1}) драйверын экспортлау уңышсыз.</value>
+    <comment>{0} - Placeholder for inf package file
+{1} - Placeholder for oem inf file</comment>
+  </data>
+  <data name="Message_Export_Drivers_Error" xml:space="preserve">
+    <value>Кайбер драйвер пакетларын экспортлауда хата.</value>
+  </data>
+  <data name="Message_Export_Drivers_Success" xml:space="preserve">
+    <value>Драйвер пакетларын экспортлау уңышлы.</value>
+  </data>
+  <data name="Status_Exporting_Drivers" xml:space="preserve">
+    <value>Драйвер пакет(лар)ын экспортлау...</value>
+  </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>Көйләүләр (&amp;O)</value>
+  </data>
+  <data name="Menu_Options_UseNativeDriverStore" xml:space="preserve">
+    <value>Җирле драйвер саклау урынын кулланырга</value>
+  </data>
+  <data name="Menu_Options_UseDISM" xml:space="preserve">
+    <value>DISM кулланыргы</value>
+  </data>
+  <data name="Menu_Options_UsePnpUtil" xml:space="preserve">
+    <value>PnpUtil кулланыргы</value>
+  </data>
+  <data name="Message_Type_Here_To_Search" xml:space="preserve">
+    <value>Эзләү өчен монда язарга</value>
   </data>
   <data name="Message_No_Inf_Found" xml:space="preserve">
-    <value>Nenhum arquivo INF encontrado na pasta {0}.</value>
+    <value>{0} папкасында inf файллары табылмады.</value>
+    <comment>{0} - Placeholder for the folder name</comment>
   </data>
   <data name="Message_Drivers_Added" xml:space="preserve">
-    <value>{0} pacotes adicionados ao armazenamento de drivers.</value>
+    <value>{0} пакет драйвер саклау урынына өстәлде.</value>
+    <comment>{0} - Placeholder for number of packages</comment>
   </data>
   <data name="Message_Drivers_Added_Installed" xml:space="preserve">
-    <value>{0} pacotes adicionados e instalados no armazenamento de drivers.</value>
+    <value>{0} пакет өстәлде һәм драйвер саклау урынына утыртылды.</value>
+    <comment>{0} - Placeholder for number of packages.</comment>
   </data>
   <data name="Message_Drivers_Added_Error" xml:space="preserve">
-    <value>Erro ao adicionar alguns pacotes ao armazenamento de drivers.</value>
+    <value>Кайбер пакетларны драйвер саклау урынына өстәгәндә хата.</value>
   </data>
   <data name="Message_Drivers_Added_Installed_Error" xml:space="preserve">
-    <value>Erro ao adicionar alguns pacotes e instalar no armazenamento de drivers.</value>
-  </data>
-  <data name="Menu_File_Export_Selected_Driver_List" xml:space="preserve">
-    <value>Exportar lista de drivers &amp;selecionados</value>
-  </data>
-  <data name="Menu_Options_IncludeBootCritical" xml:space="preserve">
-    <value>Incluir drivers de inicialização crítica em drivers antigos</value>
+    <value>Кайбер пакетларны өстәп драйвер саклау урынына утыртканда хата.</value>
   </data>
   <data name="Dialog_Select_Offline_Store_Title" xml:space="preserve">
-    <value>Selecione a pasta contendo a pasta Windows (não a própria pasta Windows)</value>
+    <value>Windows папкасы булган каталогны сайлагыз (Windows папкасының үзен түгел)</value>
   </data>
   <data name="Message_Invalid_Offline_Store_Title" xml:space="preserve">
-    <value>Seleção de pasta inválida</value>
+    <value>Дөрес түгел каталог сайлау</value>
   </data>
   <data name="Message_Invalid_Offline_Store_Location" xml:space="preserve">
-    <value>A pasta selecionada deve conter uma pasta 'Windows'.
+    <value>Сайланган каталогта 'Windows' папкасы булырга тиеш.
 
-Por favor, selecione a pasta raiz de uma instalação ou imagem do Windows (a pasta que contém a pasta Windows), não a própria pasta Windows.</value>
+Зинһар, Windows урнаштыру яки сүрәтенең тамыр каталогын сайлагыз (Windows папкасы булган каталог), Windows папкасының үзен түгел.</value>
   </data>
   <data name="Message_No_Old_Drivers_Found" xml:space="preserve">
-    <value>Nenhum driver antigo encontrado para selecionar.</value>
+    <value>Сайлау өчен иске драйверлар табылмады.</value>
   </data>
 </root>

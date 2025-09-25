@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +12,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using BrightIdeasSoftware;
+
+using JR.Utils.GUI.Forms;
 
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -31,11 +35,13 @@ namespace Rapr
 
         private static readonly IUpdateManager UpdateManager = new UpdateManager();
 
-        private static readonly List<CultureInfo> SupportedLanguage = DSEFormHelper.GetSupportedLanguage();
+        private static readonly ICollection<CultureInfo> SupportedLanguage = DSEFormHelper.GetSupportedLanguage();
 
         private readonly Timer UpdateCheckedItemSizeTimer;
+        private Timer searchDebounceTimer;
         private const long RefreshTime = Timeout.Infinite;
         private const long Delay = 100;
+        private const long SearchDebounceDelay = 300; // 0.3 seconds
 
         public DSEForm()
         {
@@ -69,6 +75,9 @@ namespace Rapr
             this.Icon = DSEFormHelper.ExtractAssociatedIcon(Application.ExecutablePath);
             this.BuildLanguageMenu();
 
+            // Initialize the BootCritical option menu item
+            this.includeBootCriticalDriversStripMenuItem.Checked = Settings.Default.IncludeBootCriticalInOldDriverSelection;
+
             this.lstDriverStoreEntries.PrimarySortColumn = this.driverClassColumn;
             this.lstDriverStoreEntries.PrimarySortOrder = SortOrder.Ascending;
             this.lstDriverStoreEntries.SecondarySortColumn = this.driverDateColumn;
@@ -79,10 +88,11 @@ namespace Rapr
 
             Trace.TraceInformation("---------------------------------------------------------------");
             Trace.TraceInformation($"{Application.ProductName} started");
-
+ 
             this.UpdateDriverStore(DriverStoreFactory.CreateOnlineDriverStore());
 
             this.UpdateCheckedItemSizeTimer = new Timer(x => this.BeginInvoke((Action)(() => this.UpdateCheckedItemSize())));
+            this.searchDebounceTimer = new Timer(x => this.BeginInvoke((Action)(() => this.UpdateSearchFilter())));
         }
 
         /// <summary>
@@ -102,19 +112,59 @@ namespace Rapr
                 {
                     this.UpdateCheckedItemSizeTimer.Dispose();
                 }
+
+                if (this.searchDebounceTimer != null)
+                {
+                    var timer = this.searchDebounceTimer;
+                    this.searchDebounceTimer = null;
+                    timer.Dispose();
+                }
             }
 
             base.Dispose(disposing);
         }
 
+        private async Task UpdateDriverStoreAPI(DriverStoreOption driverStoreOption)
+        {
+            if (this.driverStore.Type == DriverStoreType.Online && Settings.Default.DriverStoreOption != driverStoreOption.ToString())
+            {
+                Settings.Default.DriverStoreOption = driverStoreOption.ToString();
+                this.UpdateDriverStore(DriverStoreFactory.CreateOnlineDriverStore());
+                await this.PopulateUIWithDriverStoreEntries().ConfigureAwait(true);
+            }
+        }
+
         private void UpdateDriverStore(IDriverStore driverStore)
         {
             this.driverStore = driverStore;
-            this.exportAllDriversToolStripMenuItem.Enabled = driverStore.SupportExportAllDrivers;
-            this.exportAllDriversToolStripMenuItem.Visible = driverStore.SupportExportAllDrivers;
+
+            // Update menu item checked states
+            _ = Enum.TryParse(Settings.Default.DriverStoreOption, out DriverStoreOption driverStoreOption);
+            this.useNativeDriveStoreStripMenuItem.Checked = driverStoreOption == DriverStoreOption.Native;
+            this.useDismStripMenuItem.Checked = driverStoreOption == DriverStoreOption.DISM;
+            this.usePnpUtilStripMenuItem.Checked = driverStoreOption == DriverStoreOption.PnpUtil;
+
+            if (driverStore.Type == DriverStoreType.Online)
+            {
+                // Update menu item enabled states
+                this.useNativeDriveStoreStripMenuItem.Enabled = DSEFormHelper.IsNativeDriverStoreSupported;
+                this.useDismStripMenuItem.Enabled = DismUtil.IsDismAvailable;
+                this.usePnpUtilStripMenuItem.Enabled = DSEFormHelper.IsPnpUtilSupported;
+                this.installDateColumn.IsVisible = driverStoreOption == DriverStoreOption.Native;
+            }
+            else
+            {
+                // Update menu item enabled states
+                this.useNativeDriveStoreStripMenuItem.Enabled = false;
+                this.useDismStripMenuItem.Enabled = false;
+                this.usePnpUtilStripMenuItem.Enabled = false;
+                this.installDateColumn.IsVisible = false;
+            }
+
             this.cbAddInstall.Enabled = driverStore.SupportAddInstall;
             this.cbForceDeletion.Enabled = driverStore.SupportForceDeletion;
             this.buttonExportDrivers.Visible = driverStore.SupportExportDriver;
+            this.buttonExportAllDrivers.Visible = driverStore.SupportExportAllDrivers;
             this.deviceNameColumn.IsVisible = driverStore.SupportForceDeletion;
             this.ctxMenuExportDriver.Visible = driverStore.SupportExportDriver;
 
@@ -173,6 +223,19 @@ namespace Rapr
                 groupKey => DriverStoreEntry.GetSizeRangeName((long)groupKey);
 
             this.bootCriticalColumn.AspectToStringConverter = condition => (bool)(condition ?? false) ? Language.Column_Text_True : Language.Column_Text_False;
+            
+            // Setup InstallDate column formatting - shows when the driver package was imported to the store
+            this.installDateColumn.GroupKeyGetter = rowObject =>
+            {
+                DriverStoreEntry driver = (DriverStoreEntry)rowObject;
+                return driver.InstallDate?.Date ?? DateTime.MinValue.Date;
+            };
+
+            this.installDateColumn.GroupKeyToTitleConverter = groupKey => 
+            {
+                var date = (DateTime)groupKey;
+                return date == DateTime.MinValue.Date ? "" : date.ToString("yyyy-MM");
+            };
         }
 
         private void BuildLanguageMenu()
@@ -269,12 +332,16 @@ namespace Rapr
                 return;
             }
 
-            await this.DeleteDriverStoreEntries(this.lstDriverStoreEntries.CheckedObjects.OfType<DriverStoreEntry>().ToList()).ConfigureAwait(true);
+            await this.DeleteDriverStoreEntries(this.lstDriverStoreEntries.CheckedObjects).ConfigureAwait(true);
         }
 
-        private async Task DeleteDriverStoreEntries(List<DriverStoreEntry> driverStoreEntries)
+        private async Task DeleteDriverStoreEntries(IEnumerable entries)
         {
             StringBuilder msgWarning = new StringBuilder();
+            var driverStoreEntries = entries.OfType<DriverStoreEntry>()
+                .OrderByColumnName(this.lstDriverStoreEntries.PrimarySortColumn?.AspectName, this.lstDriverStoreEntries.PrimarySortOrder == SortOrder.Ascending)
+                .ThenByColumnName(this.lstDriverStoreEntries.SecondarySortColumn?.AspectName, this.lstDriverStoreEntries.SecondarySortOrder == SortOrder.Ascending)
+                .ToList();
 
             if (driverStoreEntries?.Count > 0)
             {
@@ -282,8 +349,8 @@ namespace Rapr
                 {
                     msgWarning.AppendFormat(
                         this.cbForceDeletion.Checked ? Language.Message_ForceDelete_Single_Package : Language.Message_Delete_Single_Package,
-                        driverStoreEntries[0].DriverPublishedName,
-                        driverStoreEntries[0].DriverFolderName);
+                        driverStoreEntries[0].DriverInfName,
+                        $"{driverStoreEntries[0].DriverVersion}, {DriverStoreEntry.GetBytesReadable(driverStoreEntries[0].DriverSize)}");
                 }
                 else
                 {
@@ -295,7 +362,7 @@ namespace Rapr
 
                     foreach (DriverStoreEntry item in driverStoreEntries)
                     {
-                        msgWarning.AppendLine($"{item.DriverPublishedName} - {item.DriverFolderName} - {DriverStoreEntry.GetBytesReadable(item.DriverSize)}");
+                        msgWarning.AppendLine($"{item.DriverInfName} - {item.DriverVersion} - {DriverStoreEntry.GetBytesReadable(item.DriverSize)}");
                     }
                 }
 
@@ -441,48 +508,120 @@ namespace Rapr
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
         private async void ButtonAddDriver_Click(object sender, EventArgs e)
         {
-            DialogResult dr = this.openFileDialog.ShowDialog();
-            if (dr == DialogResult.OK)
+            using (var dialog = new CommonOpenFileDialog { IsFolderPicker = true, EnsurePathExists = true, Title = Language.Dialog_Select_Inf_Folder })
             {
-                string infPath = this.openFileDialog.FileName;
-                bool installDriver = this.cbAddInstall.Checked;
+                CommonFileDialogResult dialogResult = dialog.ShowDialog();
 
-                try
+                if (dialogResult == CommonFileDialogResult.Ok)
                 {
-                    this.StartOperation();
-                    this.ShowStatus(Status.Normal, Language.Status_Adding_Package);
+                    string infPath = dialog.FileName;
+                    bool installDriver = this.cbAddInstall.Checked;
 
-                    bool result = await Task.Run(() => this.driverStore.AddDriver(infPath, installDriver)).ConfigureAwait(true);
+                    var infFiles = FindInfFile(infPath).ToList();
 
-                    var allDriverStoreEntries = await Task.Run(() => this.driverStore.EnumeratePackages()).ConfigureAwait(true);
-                    this.lstDriverStoreEntries.SetObjects(allDriverStoreEntries);
-
-                    if (result)
+                    if (infFiles.Count == 0)
                     {
-                        var message = string.Format(
-                            installDriver ? Language.Message_Driver_Added_Installed : Language.Message_Driver_Added,
-                            infPath);
-
-                        this.ShowStatus(Status.Success, message);
-                    }
-                    else
-                    {
-                        var message = string.Format(
-                            installDriver ? Language.Message_Driver_Added_Installed_Error : Language.Message_Driver_Added_Error,
-                            infPath);
-
-                        this.ShowStatus(Status.Error, message, usePopup: true);
+                        this.ShowStatus(Status.Error, string.Format(Language.Message_No_Inf_Found, infPath), usePopup: true);
+                        return;
                     }
 
-                    this.cbAddInstall.Checked = false;
-                }
-                catch (Exception ex)
-                {
-                    this.ShowStatus(Status.Error, ex.Message, ex.ToString(), true);
-                }
-                finally
-                {
-                    this.EndOperation();
+                    try
+                    {
+                        this.StartOperation();
+                        this.ShowStatus(Status.Normal, Language.Status_Adding_Package);
+
+                        (bool allSucceeded, string detailResult) = await Task.Run(() =>
+                        {
+                            bool totalResult = true;
+                            StringBuilder sb = new StringBuilder();
+
+                            if (infFiles.Count == 1)
+                            {
+                                totalResult = this.driverStore.AddDriver(infFiles[0], installDriver);
+                                sb.AppendFormat(
+                                    installDriver ? Language.Message_Driver_Added_Installed : Language.Message_Driver_Added,
+                                    infPath);
+                            }
+                            else
+                            {
+                                foreach (string infFile in infFiles)
+                                {
+                                    bool succeeded = this.driverStore.AddDriver(infFile, installDriver);
+
+                                    string resultTxt;
+                                    if (succeeded)
+                                    {
+                                        resultTxt = string.Format(
+                                            installDriver ? Language.Message_Driver_Added_Installed : Language.Message_Driver_Added,
+                                            infFile.Substring(infPath.Length).TrimStart('\\'));
+                                        Trace.TraceInformation(resultTxt);
+                                    }
+                                    else
+                                    {
+                                        resultTxt = string.Format(
+                                            installDriver ? Language.Message_Driver_Added_Installed_Error : Language.Message_Driver_Added_Error,
+                                            infFile.Substring(infPath.Length).TrimStart('\\'));
+                                        Trace.TraceError(resultTxt);
+                                    }
+
+                                    sb.AppendLine(resultTxt);
+                                    totalResult &= succeeded;
+                                }
+                            }
+
+                            return (totalResult, sb.ToString());
+                        }).ConfigureAwait(true);
+
+
+                        var allDriverStoreEntries = await Task.Run(() => this.driverStore.EnumeratePackages()).ConfigureAwait(true);
+                        this.lstDriverStoreEntries.SetObjects(allDriverStoreEntries);
+
+
+                        if (infFiles.Count == 1)
+                        {
+                            if (allSucceeded)
+                            {
+                                this.ShowStatus(
+                                    Status.Success,
+                                    string.Format(
+                                        installDriver ? Language.Message_Driver_Added_Installed : Language.Message_Driver_Added,
+                                        infPath));
+                            }
+                            else
+                            {
+                                this.ShowStatus(
+                                    Status.Error,
+                                    string.Format(
+                                        installDriver ? Language.Message_Driver_Added_Installed_Error : Language.Message_Driver_Added_Error,
+                                       infPath),
+                                    usePopup: true);
+                            }
+                        }
+                        else
+                        {
+                            if (allSucceeded)
+                            {
+                                this.ShowStatus(
+                                    Status.Success,
+                                    string.Format(
+                                        installDriver ? Language.Message_Drivers_Added_Installed : Language.Message_Drivers_Added,
+                                        infFiles.Count));
+                            }
+                            else
+                            {
+                                var message = installDriver ? Language.Message_Drivers_Added_Installed_Error : Language.Message_Drivers_Added_Error;
+                                this.ShowStatus(Status.Error, $"{message}{Environment.NewLine}{detailResult}", usePopup: true);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        this.ShowStatus(Status.Error, ex.Message, ex.ToString(), true);
+                    }
+                    finally
+                    {
+                        this.EndOperation();
+                    }
                 }
             }
         }
@@ -494,6 +633,7 @@ namespace Rapr
             {
                 this.ctxMenuSelectAll.Enabled = true;
                 this.ctxMenuSelectOldDrivers.Enabled = true;
+                this.ctxMenuInvertSelection.Enabled = true;
 
                 if (this.lstDriverStoreEntries.CheckedObjects?.Count > 0)
                 {
@@ -507,6 +647,7 @@ namespace Rapr
                 if (this.lstDriverStoreEntries.SelectedObjects?.Count > 0)
                 {
                     this.ctxMenuDelete.Enabled = true;
+                    this.ctxMenuExportDriver.Enabled = true;
 
                     if (this.lstDriverStoreEntries.CheckedObjects?.Count > 0
                         && this.lstDriverStoreEntries
@@ -523,6 +664,7 @@ namespace Rapr
 
                     this.ctxMenuSelect.Enabled = true;
 
+                    this.ctxMenuOpenDeviceProperties.Enabled = !string.IsNullOrEmpty((this.lstDriverStoreEntries.SelectedObject as DriverStoreEntry)?.DeviceId);
                     this.ctxMenuOpenFolder.Enabled = this.lstDriverStoreEntries.SelectedObjects.Count == 1;
                 }
                 else
@@ -530,15 +672,19 @@ namespace Rapr
                     this.ctxMenuOpenFolder.Enabled = false;
                     this.ctxMenuDelete.Enabled = false;
                     this.ctxMenuSelect.Enabled = false;
+                    this.ctxMenuExportDriver.Enabled = false;
                 }
             }
             else
             {
                 this.ctxMenuSelect.Enabled = false;
                 this.ctxMenuSelectAll.Enabled = false;
+                this.ctxMenuInvertSelection.Enabled = false;
                 this.ctxMenuSelectOldDrivers.Enabled = false;
+                this.ctxMenuOpenDeviceProperties.Enabled = false;
                 this.ctxMenuOpenFolder.Enabled = false;
                 this.ctxMenuDelete.Enabled = false;
+                this.ctxMenuExportDriver.Enabled = false;
             }
         }
 
@@ -592,18 +738,24 @@ namespace Rapr
             }
         }
 
+        private void CtxMenuInvertSelection_Click(object sender, System.EventArgs e)
+        {
+            if (this.lstDriverStoreEntries.Objects != null)
+            {
+
+                this.lstDriverStoreEntries.CheckedObjects = this.lstDriverStoreEntries
+                    .Objects
+                    .Cast<object>()
+                    .Except(this.lstDriverStoreEntries.CheckedObjects.Cast<object>())
+                    .ToList();
+            }
+        }
+
         private async void CtxMenuDelete_Click(object sender, EventArgs e)
         {
             if (this.lstDriverStoreEntries.SelectedObjects != null)
             {
-                List<DriverStoreEntry> driverStoreEntries = new List<DriverStoreEntry>();
-
-                foreach (DriverStoreEntry item in this.lstDriverStoreEntries.SelectedObjects)
-                {
-                    driverStoreEntries.Add(item);
-                }
-
-                await this.DeleteDriverStoreEntries(driverStoreEntries).ConfigureAwait(true);
+                await this.DeleteDriverStoreEntries(this.lstDriverStoreEntries.SelectedObjects).ConfigureAwait(true);
             }
         }
 
@@ -611,14 +763,36 @@ namespace Rapr
         {
             if (this.lstDriverStoreEntries.Objects != null)
             {
-                this.lstDriverStoreEntries.CheckedObjects = this.lstDriverStoreEntries
+                var queryEntries = this.lstDriverStoreEntries
                     .Objects
-                    .OfType<DriverStoreEntry>()
-                    .Where(entry => entry.BootCritical != true)
+                    .OfType<DriverStoreEntry>();
+
+                // Apply BootCritical filter based on the setting
+                if (!Settings.Default.IncludeBootCriticalInOldDriverSelection)
+                {
+                    queryEntries = queryEntries.Where(entry => entry.BootCritical != true);
+                }
+
+                var oldDriversToSelect = queryEntries
+                    .Where(entry => entry.DriverInfName != "ntprint.inf")
                     .GroupBy(entry => new { entry.DriverClass, entry.DriverExtensionId, entry.DriverPkgProvider, entry.DriverInfName })
-                    .SelectMany(g => g.OrderByDescending(row => row.DriverVersion).ThenByDescending(row => row.DriverDate).Skip(1))
-                    .Where(entry => string.IsNullOrEmpty(entry.DeviceName))
+                    .SelectMany(drivers => drivers
+                        .GroupBy(entry => new { entry.DriverVersion, entry.DriverDate })
+                        .OrderByDescending(g => g.Key.DriverVersion)
+                        .ThenByDescending(g => g.Key.DriverDate)
+                        .Skip(1)
+                        .Where(g => g.All(entry => string.IsNullOrEmpty(entry.DeviceName)))
+                        .SelectMany(g => g))
                     .ToArray();
+
+                if (oldDriversToSelect.Length == 0)
+                {
+                    this.ShowStatus(Status.Warning, Language.Message_No_Old_Drivers_Found);
+                }
+                else
+                {
+                    this.lstDriverStoreEntries.CheckedObjects = oldDriversToSelect;
+                }
             }
         }
 
@@ -627,41 +801,39 @@ namespace Rapr
             this.CtxMenuSelectOldDrivers_Click(sender, e);
         }
 
-        private void ExportList()
+        private void ExportDriverList(IEnumerable objects)
         {
-            // Check if there are any entries.
-            if (this.lstDriverStoreEntries.Objects != null)
+            if (objects == null)
             {
-                List<DriverStoreEntry> driverStoreEntries = this.lstDriverStoreEntries
-                    .Objects
-                    .OfType<DriverStoreEntry>()
-                    .ToList();
+                return;
+            }
 
-                if (driverStoreEntries.Count == 0)
+            List<DriverStoreEntry> driverStoreEntries = objects.OfType<DriverStoreEntry>().ToList();
+
+            if (driverStoreEntries.Count == 0)
+            {
+                this.ShowMessageBox(
+                    Language.Message_No_Entries,
+                    Language.Export_Error,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            try
+            {
+                string fileName = new CsvExporter().Export(driverStoreEntries);
+
+                if (!string.IsNullOrEmpty(fileName))
                 {
-                    this.ShowMessageBox(
-                        Language.Message_No_Entries,
-                        Language.Export_Error,
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
+                    string message = string.Format(Language.Export_Complete, fileName);
+                    this.ShowStatus(Status.Normal, message, usePopup: true);
                 }
-
-                try
-                {
-                    string fileName = new CsvExporter().Export(driverStoreEntries);
-
-                    if (!string.IsNullOrEmpty(fileName))
-                    {
-                        string message = string.Format(Language.Export_Complete, fileName);
-                        this.ShowStatus(Status.Normal, message, usePopup: true);
-                    }
-                }
-                catch (Exception ex) when (ex is IOException || ex is SecurityException)
-                {
-                    this.ShowStatus(Status.Error, string.Format(Language.Export_Failed, ex), usePopup: true);
-                }
+            }
+            catch (Exception ex) when (ex is IOException || ex is SecurityException)
+            {
+                this.ShowStatus(Status.Error, string.Format(Language.Export_Failed, ex), usePopup: true);
             }
         }
 
@@ -674,18 +846,18 @@ namespace Rapr
         {
             if ((sender as ToolStripMenuItem)?.Tag is CultureInfo ci)
             {
-                Size windowSize = this.Size;
                 byte[] driverStoreViewState = this.lstDriverStoreEntries.SaveState();
 
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
+
+                Language.Culture = ci;
 
                 // Clear and redraw the window
                 this.SuspendLayout();
                 this.Controls.Clear();
                 this.InitializeComponent();
                 this.BuildLanguageMenu();
-                this.Size = windowSize;
                 this.RightToLeft = ci.TextInfo.IsRightToLeft ? RightToLeft.Yes : RightToLeft.No;
                 this.RightToLeftLayout = ci.TextInfo.IsRightToLeft;
                 this.SetupListViewColumns();
@@ -714,9 +886,14 @@ namespace Rapr
             }
         }
 
-        private void ExportToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExportSelectedDriverListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.ExportList();
+            ExportDriverList(this.lstDriverStoreEntries.CheckedObjects);
+        }
+
+        private void ExportAllDriverListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportDriverList(this.lstDriverStoreEntries.Objects);
         }
 
         private void RunAsAdminToolStripMenuItem_Click(object sender, EventArgs e)
@@ -809,7 +986,9 @@ namespace Rapr
             }
 
             this.buttonDeleteDriver.Enabled = this.lstDriverStoreEntries.CheckedObjects.Count > 0;
+            this.exportSelectedDriverListToolStripMenuItem.Enabled = this.buttonDeleteDriver.Enabled;
             this.cbForceDeletion.Enabled = this.buttonDeleteDriver.Enabled;
+            this.buttonExportDrivers.Enabled = this.buttonDeleteDriver.Enabled;
         }
 
         private void UpdateColumnSize()
@@ -818,6 +997,15 @@ namespace Rapr
             for (var i = 0; i < this.lstDriverStoreEntries.Columns.Count - 1; i++)
             {
                 this.lstDriverStoreEntries.Columns[i].Width = -2;
+            }
+        }
+
+        private void CtxMenuOpenDeviceProperties_Click(object sender, EventArgs e)
+        {
+            if (this.lstDriverStoreEntries.SelectedObject != null)
+            {
+                DriverStoreEntry item = (DriverStoreEntry)this.lstDriverStoreEntries.SelectedObject;
+                Process.Start("rundll32.exe", $"devmgr.dll,DeviceProperties_RunDLL /MachineName \"\" /DeviceID \"{item.DeviceId}\"");
             }
         }
 
@@ -894,10 +1082,13 @@ namespace Rapr
             this.cbForceDeletion.Enabled = false;
             this.buttonSelectOldDrivers.Enabled = false;
             this.buttonExportDrivers.Enabled = false;
+            this.buttonExportAllDrivers.Enabled = false;
             this.chooseDriverStoreToolStripMenuItem.Enabled = false;
-            this.exportToolStripMenuItem.Enabled = false;
-            this.exportAllDriversToolStripMenuItem.Enabled = false;
+            this.exportSelectedDriverListToolStripMenuItem.Enabled = false;
+            this.exportAllDriverListToolStripMenuItem.Enabled = false;
             this.languageToolStripMenuItem.Enabled = false;
+            this.optionsStripMenuItem.Enabled = false;
+            this.textBoxSearch.Enabled = false;
         }
 
         private void EndOperation()
@@ -910,11 +1101,14 @@ namespace Rapr
             this.buttonDeleteDriver.Enabled = this.lstDriverStoreEntries.CheckedObjects.Count > 0;
             this.cbForceDeletion.Enabled = this.buttonDeleteDriver.Enabled && this.driverStore.SupportForceDeletion;
             this.buttonSelectOldDrivers.Enabled = true;
-            this.buttonExportDrivers.Enabled = true;
+            this.buttonExportDrivers.Enabled = this.buttonDeleteDriver.Enabled;
+            this.buttonExportAllDrivers.Enabled = this.lstDriverStoreEntries.Objects != null;
             this.chooseDriverStoreToolStripMenuItem.Enabled = true;
-            this.exportToolStripMenuItem.Enabled = true;
-            this.exportAllDriversToolStripMenuItem.Enabled = true;
+            this.exportSelectedDriverListToolStripMenuItem.Enabled = this.lstDriverStoreEntries.CheckedObjects.Count > 0;
+            this.exportAllDriverListToolStripMenuItem.Enabled = this.lstDriverStoreEntries.Objects != null;
             this.languageToolStripMenuItem.Enabled = true;
+            this.optionsStripMenuItem.Enabled = true;
+            this.textBoxSearch.Enabled = true;
         }
 
         public enum Status
@@ -983,7 +1177,7 @@ namespace Rapr
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
-        private async void ExportAllDriversToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void ButtonExportAllDrivers_Click(object sender, EventArgs e)
         {
             using (var dialog = new CommonOpenFileDialog { IsFolderPicker = true })
             {
@@ -1021,14 +1215,192 @@ namespace Rapr
 
         private DialogResult ShowMessageBox(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
-            return MessageBox.Show(
+            return FlexibleMessageBox.Show(
                 this,
                 text,
                 caption,
                 buttons,
                 icon,
-                MessageBoxDefaultButton.Button1,
-                this.RightToLeftLayout ? MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign : 0);
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private async void UseNativeDriveStoreStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            await this.UpdateDriverStoreAPI(DriverStoreOption.Native);
+        }
+
+        private async void UseDismStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            await this.UpdateDriverStoreAPI(DriverStoreOption.DISM);
+        }
+
+        private async void UsePnpUtilStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            await this.UpdateDriverStoreAPI(DriverStoreOption.PnpUtil);
+        }
+
+        private void IncludeBootCriticalDriversStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            Settings.Default.IncludeBootCriticalInOldDriverSelection = this.includeBootCriticalDriversStripMenuItem.Checked;
+            Settings.Default.Save();
+        }
+
+        private async void CtxMenuExportDriver_Click(object sender, System.EventArgs e)
+        {
+            using (var dialog = new CommonOpenFileDialog { IsFolderPicker = true })
+            {
+                CommonFileDialogResult dialogResult = dialog.ShowDialog();
+
+                if (dialogResult == CommonFileDialogResult.Ok)
+                {
+                    await ExportDrivers(this.lstDriverStoreEntries.SelectedObjects, dialog.FileName);
+                }
+            }
+        }
+
+        private async void ButtonExportDrivers_Click(object sender, System.EventArgs e)
+        {
+            using (var dialog = new CommonOpenFileDialog { IsFolderPicker = true })
+            {
+                CommonFileDialogResult dialogResult = dialog.ShowDialog();
+
+                if (dialogResult == CommonFileDialogResult.Ok)
+                {
+                    await ExportDrivers(this.lstDriverStoreEntries.CheckedObjects, dialog.FileName);
+                }
+            }
+        }
+
+        private async Task ExportDrivers(IEnumerable entries, string destinationPath)
+        {
+            try
+            {
+                var driverStoreEntries = entries
+                    ?.OfType<DriverStoreEntry>()
+                    .OrderByColumnName(this.lstDriverStoreEntries.PrimarySortColumn?.AspectName, this.lstDriverStoreEntries.PrimarySortOrder == SortOrder.Ascending)
+                    .ThenByColumnName(this.lstDriverStoreEntries.SecondarySortColumn?.AspectName, this.lstDriverStoreEntries.SecondarySortOrder == SortOrder.Ascending)
+                    .ToList();
+
+                if (driverStoreEntries?.Count > 0)
+                {
+                    this.StartOperation();
+                    this.ShowStatus(Status.Normal, Language.Status_Exporting_Drivers);
+
+                    (bool allSucceeded, string detailResult) = await Task.Run(() =>
+                    {
+                        bool totalResult = true;
+                        StringBuilder sb = new StringBuilder();
+
+                        if (driverStoreEntries.Count == 1)
+                        {
+                            totalResult = this.driverStore.ExportDriver(driverStoreEntries[0], destinationPath);
+                        }
+                        else
+                        {
+                            foreach (DriverStoreEntry entry in driverStoreEntries)
+                            {
+                                bool succeeded = this.driverStore.ExportDriver(entry, destinationPath);
+                                string resultTxt = string.Format(
+                                    succeeded ? Language.Message_Export_Success : Language.Message_Export_Fail,
+                                    entry.DriverPublishedName,
+                                    entry.DriverFolderName);
+
+                                Trace.TraceInformation(resultTxt);
+
+                                sb.AppendLine(resultTxt);
+                                totalResult &= succeeded;
+                            }
+                        }
+
+                        return (totalResult, sb.ToString());
+                    }).ConfigureAwait(true);
+
+                    if (allSucceeded)
+                    {
+                        this.ShowStatus(Status.Success, Language.Message_Export_Drivers_Success);
+                    }
+                    else
+                    {
+                        this.ShowStatus(Status.Error, Language.Message_Export_Drivers_Error, usePopup: true);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.ShowStatus(Status.Error, ex.Message, ex.ToString(), true);
+            }
+            finally
+            {
+                this.EndOperation();
+            }
+        }
+
+        private void TextBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            // Reset the debounce timer
+            this.searchDebounceTimer?.Change(SearchDebounceDelay, Timeout.Infinite);
+        }
+
+        private void UpdateSearchFilter()
+        {
+            if (textBoxSearch.Text == Language.Message_Type_Here_To_Search || string.IsNullOrWhiteSpace(textBoxSearch.Text))
+            {
+                this.lstDriverStoreEntries.ModelFilter = null;
+                this.lstDriverStoreEntries.DefaultRenderer = null;
+                if (this.lstDriverStoreEntries.EmptyListMsg == Language.Message_No_Entries)
+                {
+                    this.lstDriverStoreEntries.EmptyListMsg = Language.Message_No_Entries;
+                }
+            }
+            else
+            {
+                if (this.lstDriverStoreEntries.EmptyListMsg == Language.Message_No_Entries)
+                {
+                    this.lstDriverStoreEntries.EmptyListMsg = this.lstDriverStoreEntries.Objects != null ? Language.Message_No_Match_Result : Language.Message_No_Entries;
+                }
+
+                TextMatchFilter filter = TextMatchFilter.Contains(this.lstDriverStoreEntries, textBoxSearch.Text);
+                this.lstDriverStoreEntries.ModelFilter = filter;
+                this.lstDriverStoreEntries.DefaultRenderer = new HighlightTextRenderer(filter);
+            }
+        }
+
+        private void TextBoxSearch_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBoxSearch.Text))
+            {
+                textBoxSearch.Text = Language.Message_Type_Here_To_Search;
+            }
+        }
+
+        private void TextBoxSearch_Enter(object sender, EventArgs e)
+        {
+            if (textBoxSearch.Text == Language.Message_Type_Here_To_Search)
+            {
+                textBoxSearch.Text = "";
+            }
+        }
+
+        private IEnumerable<string> FindInfFile(string infPath)
+        {
+            // Search for *.inf files in the current directory  
+            var infFiles = Directory.GetFiles(infPath, "*.inf", SearchOption.TopDirectoryOnly);
+            if (infFiles.Length > 0)
+            {
+                yield return infFiles[0];
+                yield break;
+            }
+
+            // If no .inf files are found, search one level down in subdirectories  
+            var subDirectories = Directory.GetDirectories(infPath);
+            foreach (var subDir in subDirectories)
+            {
+                infFiles = Directory.GetFiles(subDir, "*.inf", SearchOption.TopDirectoryOnly);
+                if (infFiles.Length > 0)
+                {
+                    yield return infFiles[0];
+                }
+            }
         }
     }
 }

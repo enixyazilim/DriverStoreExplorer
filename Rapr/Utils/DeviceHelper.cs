@@ -167,6 +167,7 @@ namespace Rapr.Utils
         internal static readonly DevPropKey DEVPKEY_Device_BiosDeviceName =           new DevPropKey(0x540b947e, 0x8b40, 0x45bc, 0xa8, 0xa2, 0x6a, 0x0b, 0x89, 0x4c, 0xbd, 0xa2, 10);    // DEVPROP_TYPE_STRING
         internal static readonly DevPropKey DEVPKEY_Device_DriverProblemDesc =        new DevPropKey(0x540b947e, 0x8b40, 0x45bc, 0xa8, 0xa2, 0x6a, 0x0b, 0x89, 0x4c, 0xbd, 0xa2, 11);    // DEVPROP_TYPE_STRING
 
+        internal static readonly DevPropKey DEVPKEY_Device_InstanceId =               new DevPropKey(0x78c34fc8, 0x104a, 0x4aca, 0x9e, 0xa4, 0x52, 0x4d, 0x52, 0x99, 0x6e, 0x57, 256);   // DEVPROP_TYPE_STRING
 
         //
         // Device Session Id
@@ -230,6 +231,11 @@ namespace Rapr.Utils
         internal static readonly DevPropKey DEVPKEY_DeviceClass_IconPath = new DevPropKey(0x259abffc, 0x50a7, 0x47ce, 0xaf, 0x8, 0x68, 0xc9, 0xa7, 0xd7, 0x33, 0x66, 12);     // DEVPROP_TYPE_STRING_LIST
 
         //
+        // Driver database properties
+        //
+        internal static readonly DevPropKey DEVPKEY_DriverDatabase_ProcessorArchitecture = new DevPropKey(0x8163eb00, 0x142c, 0x4f7a, 0x94, 0xe1, 0xa2, 0x74, 0xcc, 0x47, 0xdb, 0xba, 3);    // DEVPROP_TYPE_UINT16
+
+        //
         // Driver database - driver package properties
         //
         internal static readonly DevPropKey DEVPKEY_DriverPackage_DriverInfName =           new DevPropKey(0x8163eb01, 0x142c, 0x4f7a, 0x94, 0xe1, 0xa2, 0x74, 0xcc, 0x47, 0xdb, 0xba, 2);    // DEVPROP_TYPE_STRING
@@ -273,13 +279,13 @@ namespace Rapr.Utils
         internal static readonly DevPropKey DEVPKEY_DriverPackage_Primitive =               new DevPropKey(0x8163eb01, 0x142c, 0x4f7a, 0x94, 0xe1, 0xa2, 0x74, 0xcc, 0x47, 0xdb, 0xba, 40);   // DEVPROP_TYPE_BOOLEAN
         internal static readonly DevPropKey DEVPKEY_DriverPackage_Invalidated =             new DevPropKey(0x8163eb01, 0x142c, 0x4f7a, 0x94, 0xe1, 0xa2, 0x74, 0xcc, 0x47, 0xdb, 0xba, 41);   // DEVPROP_TYPE_BOOLEAN
 
-       internal static T ConvertPropToType<T>(IntPtr propertyBufferPtr, DevPropType propertyType)
+        internal static T ConvertPropToType<T>(IntPtr propertyBufferPtr, DevPropType propertyType)
         {
             if ((propertyType == DevPropType.String || propertyType == DevPropType.StringIndirect) && typeof(T) == typeof(string))
             {
                 return (T)(object)Marshal.PtrToStringUni(propertyBufferPtr);
             }
-            else if (propertyType == DevPropType.FileTime && typeof(T) == typeof(DateTime))
+            else if (propertyType == DevPropType.FileTime && (typeof(T) == typeof(DateTime) || typeof(T) == typeof(DateTime?)))
             {
                 var time = (System.Runtime.InteropServices.ComTypes.FILETIME)Marshal.PtrToStructure(propertyBufferPtr, typeof(System.Runtime.InteropServices.ComTypes.FILETIME));
                 ulong high = (ulong)time.dwHighDateTime;
@@ -302,7 +308,9 @@ namespace Rapr.Utils
             }
             else if (propertyType == DevPropType.String && typeof(T) == typeof(Version))
             {
-                return (T)(object)Version.Parse(Marshal.PtrToStringUni(propertyBufferPtr));
+                return Version.TryParse(Marshal.PtrToStringUni(propertyBufferPtr), out Version version)
+                    ? (T)(object)version
+                    : (T)(object)(new Version());
             }
             else if (propertyType == DevPropType.Uint32 && typeof(T) == typeof(uint))
             {

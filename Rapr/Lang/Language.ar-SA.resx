@@ -216,8 +216,11 @@
   <data name="Menu_File" xml:space="preserve">
     <value>ملف</value>
   </data>
-  <data name="Menu_File_Export" xml:space="preserve">
+  <data name="Menu_File_Export_All_Driver_List" xml:space="preserve">
     <value>تصدير قائمة التعريفات</value>
+  </data>
+  <data name="Menu_File_Export_Selected_Driver_List" xml:space="preserve">
+    <value>تصدير قائمة برامج تشغيل محددة</value>
   </data>
   <data name="Menu_File_Exit" xml:space="preserve">
     <value>خروج</value>
@@ -230,12 +233,6 @@
   </data>
   <data name="Message_No_Entries" xml:space="preserve">
     <value>لا يوجد تعريفات بعد</value>
-  </data>
-  <data name="Dialog_Open_Filter_Text" xml:space="preserve">
-    <value>إختيار ملف INF</value>
-  </data>
-  <data name="Dialog_Open_Filters" xml:space="preserve">
-    <value>INF ملفات | *.inf</value>
   </data>
   <data name="Product_About_Title" xml:space="preserve">
     <value>حول {0}</value>
@@ -251,8 +248,7 @@
 المساهمون:
     https://github.com/lostindark/DriverStoreExplorer/graphs/contributors
 حقوق الاعتماد:
-    http://objectlistview.sourceforge.net ObjectListView
-    https://github.com/jeffkl/ManagedDism Managed DismApi Wrapper
+    https://github.com/lostindark/DriverStoreExplorer?tab=readme-ov-file#credits
 الرخصة:
 https://github.com/lostindark/DriverStoreExplorer/blob/master/LICENSE</value>
   </data>
@@ -362,7 +358,7 @@ https://github.com/lostindark/DriverStoreExplorer/blob/master/LICENSE</value>
   <data name="Context_Export_Driver" xml:space="preserve">
     <value>تصدير التعريف</value>
   </data>
-  <data name="Menu_File_Export_All_Drivers" xml:space="preserve">
+  <data name="Button_Export_All_Drivers" xml:space="preserve">
     <value>تصدير جميع التعريفات</value>
   </data>
   <data name="Message_Export_All_Drivers_Fail" xml:space="preserve">
@@ -373,5 +369,100 @@ https://github.com/lostindark/DriverStoreExplorer/blob/master/LICENSE</value>
   </data>
   <data name="Status_Exporting_All_Drivers" xml:space="preserve">
     <value>تصدير جميع التعريفات...</value>
+  </data>
+  <data name="Menu_Options_IncludeBootCritical" xml:space="preserve">
+    <value>تضمين برامج التشغيل المهمة للإقلاع في برامج التشغيل القديمة</value>
+  </data>
+  <data name="Message_No_Match_Result" xml:space="preserve">
+    <value>لا توجد نتائج مطابقة.</value>
+  </data>
+  <data name="Dialog_Select_Inf_Folder" xml:space="preserve">
+    <value>اختر مجلد INF</value>
+  </data>
+  <data name="Context_Invert_Selection" xml:space="preserve">
+    <value>عكس التحديد</value>
+  </data>
+  <data name="Context_Open_Device_Properties" xml:space="preserve">
+    <value>فتح خصائص الجهاز</value>
+  </data>
+  <data name="Column_DeviceId" xml:space="preserve">
+    <value>معرف الجهاز</value>
+  </data>
+  <data name="Message_Export_Success" xml:space="preserve">
+    <value>تم تصدير التعريف {0} ({1}) بنجاح.</value>
+  </data>
+  <data name="Message_Export_Fail" xml:space="preserve">
+    <value>فشل تصدير التعريف {0} ({1}).</value>
+  </data>
+  <data name="Message_Export_Drivers_Error" xml:space="preserve">
+    <value>خطأ في تصدير بعض حزم التعريفات.</value>
+  </data>
+  <data name="Message_Export_Drivers_Success" xml:space="preserve">
+    <value>تم تصدير حزم التعريفات بنجاح.</value>
+  </data>
+  <data name="Status_Exporting_Drivers" xml:space="preserve">
+    <value>تصدير حزم التعريفات...</value>
+  </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="Column_BootCritical" xml:space="preserve">
+    <value>مهم للإقلاع</value>
+  </data>
+  <data name="Column_Text_True" xml:space="preserve">
+    <value>صحيح</value>
+  </data>
+  <data name="Column_Text_False" xml:space="preserve">
+    <value>خطأ</value>
+  </data>
+  <data name="Column_Extension_Id" xml:space="preserve">
+    <value>معرف الامتداد</value>
+  </data>
+  <data name="Column_InstallDate" xml:space="preserve">
+    <value>تاريخ التثبيت</value>
+  </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>خيارات</value>
+  </data>
+  <data name="Menu_Options_UseNativeDriverStore" xml:space="preserve">
+    <value>استخدام مستودع التعريفات الأصلي</value>
+  </data>
+  <data name="Menu_Options_UseDISM" xml:space="preserve">
+    <value>استخدام DISM</value>
+  </data>
+  <data name="Menu_Options_UsePnpUtil" xml:space="preserve">
+    <value>استخدام PnpUtil</value>
+  </data>
+  <data name="Message_Type_Here_To_Search" xml:space="preserve">
+    <value>اكتب هنا للبحث</value>
+  </data>
+  <data name="Message_No_Inf_Found" xml:space="preserve">
+    <value>لم يتم العثور على ملفات INF في المجلد {0}.</value>
+  </data>
+  <data name="Message_Drivers_Added" xml:space="preserve">
+    <value>تم إضافة {0} حزم إلى مستودع التعريفات.</value>
+  </data>
+  <data name="Message_Drivers_Added_Installed" xml:space="preserve">
+    <value>تم إضافة وتثبيت {0} حزم في مستودع التعريفات.</value>
+  </data>
+  <data name="Message_Drivers_Added_Error" xml:space="preserve">
+    <value>خطأ في إضافة بعض الحزم إلى مستودع التعريفات.</value>
+  </data>
+  <data name="Message_Drivers_Added_Installed_Error" xml:space="preserve">
+    <value>خطأ في إضافة وتثبيت بعض الحزم في مستودع التعريفات.</value>
+  </data>
+  <data name="Dialog_Select_Offline_Store_Title" xml:space="preserve">
+    <value>حدد الدليل الذي يحتوي على مجلد Windows (وليس مجلد Windows نفسه)</value>
+  </data>
+  <data name="Message_Invalid_Offline_Store_Title" xml:space="preserve">
+    <value>اختيار دليل غير صحيح</value>
+  </data>
+  <data name="Message_Invalid_Offline_Store_Location" xml:space="preserve">
+    <value>يجب أن يحتوي الدليل المحدد على مجلد 'Windows'.
+
+يرجى تحديد الدليل الجذر لتثبيت أو صورة Windows (الدليل الذي يحتوي على مجلد Windows)، وليس مجلد Windows نفسه.</value>
+  </data>
+  <data name="Message_No_Old_Drivers_Found" xml:space="preserve">
+    <value>لم يتم العثور على تعريفات قديمة للتحديد.</value>
   </data>
 </root>
